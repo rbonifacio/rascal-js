@@ -315,6 +315,53 @@ syntax Numeric
   | hexadecimal: [a-zA-Z$_0-9] !<< HexInteger hexInt
   ;
 
+lexical TemplateCharacters
+  = TemplateCharacter TemplateCharacters
+  | TemplateCharacter;
+
+lexical TemplateCharacter
+  // $ [lookahead diff from {] TODO ASK PROFESSOR ABOUT LOOKAHEAD
+   = [\\] EscapeSequence
+  | LineContinuation
+  | LineTerminatorSequence
+  | SourceCharacter \ NotTemplateCharacter
+  | ([\a00] | ![\n \a0D \" \\])+ \ NotTemplateCharacter;
+
+lexical SourceCharacter
+  = unicodeEscape: "\\" [u]+ [0-9 A-F a-f] [0-9 A-F a-f] [0-9 A-F a-f] [0-9 A-F a-f];
+
+lexical NotTemplateCharacter
+  = [\u0060]
+  | [\\] 
+  | "$" 
+  | LineTerminator;
+
+lexical LineContinuation
+  = [\\] LineTerminatorSequence;
+
+lexical LineTerminator =
+  [\n] 
+  | EndOfFile !>> ![] 
+  | [\a0D] [\n] 
+  | CarriageReturn !>> [\n] 
+  ;
+
+lexical CarriageReturn =
+  [\a0D] 
+  ;
+
+lexical EndOfFile =
+  
+  ;
+
+//TODO ASK PROFESSOR ABOUT DIFFERENCES
+lexical LineTerminatorSequence =
+  [\n] 
+  | EndOfFile !>> ![] 
+  | [\a0D] [\n] 
+  | CarriageReturn !>> [\n] 
+  ;
+
 lexical Decimal
   = DecimalInteger [.] [0-9]* ExponentPart?
   | [.] [0-9]+ ExponentPart?
@@ -342,16 +389,20 @@ lexical HexInteger
 lexical String
   = [\"] DoubleStringChar* [\"]
   | [\'] SingleStringChar* [\']
-  | [\u0060] SingleStringChar* [\u0060]
+  | [\u0060] BackTickStringChar* [\u0060]
   ;
 
+lexical BackTickStringChar
+  = ![\u0060]
+  | [\\] EscapeSequence
+  ;
 lexical DoubleStringChar
   = ![\"\\\n]
   | [\\] EscapeSequence
   ;
 
 lexical SingleStringChar
-  = ![\'\\]
+  = ![\'\\\n]
   | [\\] EscapeSequence
   ;
 
@@ -383,6 +434,8 @@ lexical EscapeCharacter
   | [0-9]
   | [xu]
   ;
+
+
   
 lexical HexDigit
   = [a-fA-F0-9]
@@ -432,7 +485,6 @@ lexical RegularExpressionClassChar
 lexical RegularExpressionFlags
   = [a-zA-Z]* !>> [a-zA-Z]
   ;
-
 
 lexical Whitespace
   = [\ \t]
