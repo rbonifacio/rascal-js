@@ -181,7 +181,7 @@ syntax IdName = Reserved
 			  ; 					
 											
                               
-syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" Expression)?;
+syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
 
 /*
  * Array Literal 
@@ -204,7 +204,11 @@ syntax LastElementList = "..." Id ;
  * Object Literal 
  */ 
  
- syntax ObjectLiteral = "{" [\n]* { PropertyAssignment ","}* ","? [\n]*"}" ;
+ syntax ObjectLiteral = "{" [\n]* PropertyAssignmentList? [\n]*"}" ;
+ 
+ syntax PropertyAssignmentList = PropertyAssignment ","? 
+                               | PropertyAssignment "," [\n]? PropertyAssignmentList
+                               ;
  
  syntax PropertyAssignment = PropertyName (":" | "=") Expression 
  						   | "[" Expression "]" ":" Expression
@@ -226,10 +230,10 @@ syntax Expression = "this"
 				  | function: "function" Id? FormalArgs FunctionBody  
 //				  | "class" Id? ClassTail 
 				  > Expression "[" ExpressionSequence "]" 
-				  | Expression "." IdName 
-				  | Expression Arguments 
+				  | "new" Expression 
+				  > Expression Arguments 
+				  | Expression [\n]* "." IdName 
 				  | callInterpolation: Expression func [\u0060] BackTickStringChar* params [\u0060]
-				  > "new" Expression Arguments 
 				  > Expression !>> [\n\r] "++" 
 				  | Expression !>> [\n\r] "--" 
 				  > "delete" Expression
@@ -264,7 +268,7 @@ syntax Expression = "this"
   				  > right binOr: Expression lhs "|" !>> [|=] Expression rhs
   				  > left and: Expression lhs "&&" Expression rhs
   				  > left or: Expression lhs "||" Expression rhs
-  			      > Expression!cond cond "?" Expression!cond then ":" Expression elseExp 
+  			      > Expression!cond cond [\n]? "?" [\n]? Expression!cond then [\n]? ":" [\n]? Expression elseExp 
    			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") Expression rhs
 				          | assignMul: Expression lhs "*=" Expression rhs
 				          | assignDiv: Expression lhs "/=" Expression rhs
