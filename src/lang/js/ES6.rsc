@@ -3,8 +3,8 @@ module lang::js::ES6
 start syntax CompilationUnit = Statement+;
 
 syntax ImportDeclaration
-	= "import" ImportClause FromClause ";"
-	| "import" ModuleSpecifier ";";
+	= "import" ImportClause FromClause EOS
+	| "import" ModuleSpecifier EOS;
 	
 syntax ImportClause
 	= 
@@ -38,14 +38,14 @@ syntax FromClause
 	= "from" ModuleSpecifier;
 
 syntax ExportDeclaration
-   = "export" "*" FromClause ";"
-   | "export" ExportClause FromClause ";"
-   | "export" ExportClause ";"
+   = "export" "*" FromClause EOS
+   | "export" ExportClause FromClause EOS
+   | "export" ExportClause EOS
    | "export" VarStatement
    | "export" FunctionDeclarationStatement
    | "export" ClassDeclarationStatement;
-   // | "export" "default" HoistableDeclaration[Default]
-   // | "export" "default" ClassDeclaration[Default];
+   //| "export" "default" HoistableDeclaration[Default];
+   // | "export" "default" Id EOS;
    // | "export" "default" [lookahead ∉ { function, class }] AssignmentExpression[In] ;
 
 syntax ExportClause
@@ -206,7 +206,7 @@ syntax LastElementList = "..." Id ;
  
  syntax ObjectLiteral = "{" [\n]* PropertyAssignmentList? [\n]*"}" ;
  
- syntax PropertyAssignmentList = PropertyAssignment ","? 
+ syntax PropertyAssignmentList = PropertyAssignment ","?  
                                | PropertyAssignment "," [\n]? PropertyAssignmentList
                                ;
  
@@ -245,42 +245,42 @@ syntax Expression = "this"
 				  | "-" !>> [\-=] Expression
 				  | "~" Expression 
 				  | "!" !>> [=] Expression
-				  > left ( Expression "*" !>> [*=]  Expression 
-				         | Expression "/" !>> [/=]  Expression 
-				         | Expression "%" !>> [%=]  Expression) 
-				  > left ( Expression "+" !>> [+=]  Expression 
-				         | Expression "-" !>> [\-=] Expression) 
-				  > left ( Expression "\<\<" Expression 
-				         | Expression "\>\>" !>> [\>] Expression 
-				         | Expression "\>\>\>" Expression)
-				  > non-assoc ( Expression "\<" Expression
-				              | Expression "\>" Expression 
-				              | Expression "\<=" Expression 
-				              | Expression "\>=" Expression 
-				              | Expression "instanceof" Expression 
-				              | Expression "in" Expression) 
-				  > right ( Expression "===" Expression 
-				          | Expression "!==" Expression 
-				          | Expression "==" !>> [=] Expression 
-				          | Expression "!=" !>> [=] Expression) 
-				  > right binAnd: Expression lhs "&" !>> [&=] Expression rhs
-  				  > right binXor: Expression lhs "^" !>> [=] Expression rhs
-  				  > right binOr: Expression lhs "|" !>> [|=] Expression rhs
-  				  > left and: Expression lhs "&&" Expression rhs
-  				  > left or: Expression lhs "||" Expression rhs
+				  > left ( Expression "*" !>> [*=] [\n]? Expression 
+				         | Expression "/" !>> [/=] [\n]? Expression 
+				         | Expression "%" !>> [%=] [\n]? Expression) 
+				  > left ( Expression "+" !>> [+=] [\n]?  Expression 
+				         | Expression "-" !>> [\-=] [\n]? Expression) 
+				  > left ( Expression "\<\<" [\n]?  Expression 
+				         | Expression "\>\>" !>> [\>]  [\n]? Expression 
+				         | Expression "\>\>\>" [\n]? Expression)
+				  > non-assoc ( Expression "\<" [\n]? Expression
+				              | Expression "\>" [\n]? Expression 
+				              | Expression "\<=" [\n]? Expression 
+				              | Expression "\>=" [\n]? Expression 
+				              | Expression "instanceof" [\n]? Expression 
+				              | Expression "in" [\n]? Expression) 
+				  > right ( Expression "===" [\n]? Expression 
+				          | Expression "!==" [\n]? Expression 
+				          | Expression "==" !>> [=] [\n]? Expression 
+				          | Expression "!=" !>> [=] [\n]? Expression) 
+				  > right binAnd: Expression lhs "&" !>> [&=] [\n]? Expression rhs
+  				  > right binXor: Expression lhs "^" !>> [=] [\n]? Expression rhs
+  				  > right binOr: Expression lhs "|" !>> [|=] [\n]? Expression rhs
+  				  > left and: Expression lhs "&&" [\n]? Expression rhs
+  				  > left or: Expression lhs "||" [\n]? Expression rhs
   			      > Expression!cond cond [\n]? "?" [\n]? Expression!cond then [\n]? ":" [\n]? Expression elseExp 
-   			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") Expression rhs
-				          | assignMul: Expression lhs "*=" Expression rhs
-				          | assignDiv: Expression lhs "/=" Expression rhs
-				          | assignRem: Expression lhs "%=" Expression rhs
-				          | assignAdd: Expression lhs "+=" Expression rhs
-				          | assignSub: Expression lhs "-=" Expression rhs
-				          | assignShl: Expression lhs "\<\<=" Expression rhs
-				          | assignShr: Expression lhs "\>\>=" Expression rhs
-				          | assignShrr: Expression lhs "\>\>\>=" Expression rhs
-				          | assignBinAnd: Expression lhs "&=" Expression rhs
-				          | assignBinXor: Expression lhs "^=" Expression rhs
-				          | assignBinOr: Expression lhs "|=" Expression rhs );
+   			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") [\n]? Expression rhs
+				          | assignMul: Expression lhs "*=" [\n]? Expression rhs
+				          | assignDiv: Expression lhs "/=" [\n]? Expression rhs
+				          | assignRem: Expression lhs "%=" [\n]? Expression rhs
+				          | assignAdd: Expression lhs "+=" [\n]? Expression rhs
+				          | assignSub: Expression lhs "-=" [\n]? Expression rhs
+				          | assignShl: Expression lhs "\<\<=" [\n]? Expression rhs
+				          | assignShr: Expression lhs "\>\>=" [\n]? Expression rhs
+				          | assignShrr: Expression lhs "\>\>\>=" [\n]? Expression rhs
+				          | assignBinAnd: Expression lhs "&=" [\n]? Expression rhs
+				          | assignBinXor: Expression lhs "^=" [\n]? Expression rhs
+				          | assignBinOr: Expression lhs "|=" [\n]? Expression rhs );
 				  
 syntax ExpressionSequence =  { Expression "," }+;    
 
@@ -288,7 +288,7 @@ syntax ArrowParameters = Id | FormalArgs ;
 
 syntax ArrowFunctionBody = Expression | FunctionBody ; 
 
-syntax Arguments = "(" [\n]* {Expression ","}* ("," LastArgument)? [\n]*")"   //zero o more arguments + optionally last argument
+syntax Arguments = "(" [\n]* {Expression ","}*  ("," LastArgument)? [\n]*")"   //zero o more arguments + optionally last argument
                  | "(" LastArgument ")" ;                          //last argument 
 
 syntax LastArgument = "..." Id ; 
