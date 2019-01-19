@@ -3,85 +3,96 @@ module lang::js::ES6
 start syntax CompilationUnit = Statement+;
 
 syntax ImportDeclaration
-	= "import" ImportClause FromClause ";"
-	| "import" ModuleSpecifier ";";
+  = "import" ImportClause FromClause ";"
+  | "import" ModuleSpecifier ";"
+  ;
 	
 syntax ImportClause
-	= 
-   Id
-   | String
-   | NameSpaceImport
-   | NamedImports
-   | Id "," NameSpaceImport
-   | Id "," NamedImports;
+  = Id
+  | String
+  | NameSpaceImport
+  | NamedImports
+  | Id "," NameSpaceImport
+  | Id "," NamedImports
+  ;
 
 syntax NameSpaceImport
-   = "*" "as" Id;
+  = "*" "as" Id
+  ;
 
 syntax NamedImports
-   = "{" "}"
-   | "{" ImportsList "}"
-   | "{" ImportsList "," "}";
+  = "{" "}"
+  | "{" ImportsList "}"
+  | "{" ImportsList "," "}"
+  ;
 
 syntax ImportsList
-   = ImportSpecifier
-   | ImportsList "," ImportSpecifier;
+  = ImportSpecifier
+  | ImportsList "," ImportSpecifier
+  ;
 
 syntax ImportSpecifier
-   = Id
-   | Id "as" Id;
+  = Id
+  | Id "as" Id
+  ;
 
 syntax ModuleSpecifier
-	= String;
+  = String
+  ;
 
 syntax FromClause
-	= "from" ModuleSpecifier;
+  = "from" ModuleSpecifier
+  ;
 
 syntax ExportDeclaration
-   = "export" "*" FromClause ";"
-   | "export" ExportClause FromClause ";"
-   | "export" ExportClause ";"
-   | "export" VarStatement
-   | "export" FunctionDeclarationStatement
-   | "export" ClassDeclarationStatement;
+  = "export" "*" FromClause ";"
+  | "export" ExportClause FromClause ";"
+  | "export" ExportClause ";"
+  | "export" VarStatement
+  | "export" FunctionDeclarationStatement
+  | "export" ClassDeclarationStatement;
    // | "export" "default" HoistableDeclaration[Default]
    // | "export" "default" ClassDeclaration[Default];
    // | "export" "default" [lookahead ∉ { function, class }] AssignmentExpression[In] ;
 
 syntax ExportClause
-   = "{" "}"
-   | "{" ExportsList "}"
-   | "{" ExportsList "," "}";
+  = "{" "}"
+  | "{" ExportsList "}"
+  | "{" ExportsList "," "}"
+  ;
 
 syntax ExportsList
-   = ExportSpecifier
-   | ExportsList "," ExportSpecifier;
+  = ExportSpecifier
+  | ExportsList "," ExportSpecifier
+  ;
 
 syntax ExportSpecifier
-   = Id
-   | Id "as" Id;
+  = Id
+  | Id "as" Id
+  ;
 
 
-syntax Statement = importDecl: ImportDeclaration importDecl 
-  				 | exportDecl: ExportDeclaration exportDecl
-				 | Block 
-                 | VarStatement  
-                 | empty: EmptyStatement
-                 | ExpressionStatement
-                 | IfStatement
-                 | IterationStatement
-                 | ContinueStatement
-                 | BreakStatement
-                 | ReturnStatement
-                 | WithStatement
-                 | LabelledStatement
-                 | SwitchStatement
-                 | ThrowStatement
-                 | TryStatement
-                 | DebuggerStatement
-                 | FunctionDeclarationStatement
-                 | ClassDeclarationStatement
-                 ;
+syntax Statement 
+  = importDecl: ImportDeclaration importDecl 
+  | exportDecl: ExportDeclaration exportDecl
+  | Block 
+  | VarStatement  
+  | empty: EmptyStatement
+  | ExpressionStatement
+  | IfStatement
+  | IterationStatement
+  | ContinueStatement
+  | BreakStatement
+  | ReturnStatement
+  | WithStatement
+  | LabelledStatement
+  | SwitchStatement
+  | ThrowStatement
+  | TryStatement
+  | DebuggerStatement
+  | FunctionDeclarationStatement
+  | ClassDeclarationStatement
+  ;
 
 
 syntax Block = "{" Statement+ "}"  ; 
@@ -188,10 +199,6 @@ syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
  */ 
 syntax ArrayLiteral = "[" [\n]*  ElementList? [\n]* "]"  ; 
 
-//syntax ElementList = { Expression "," }* ("," LastElementList)? 
-//                   | LastElementList 
-//                   ;
-
 syntax ElementList = Expression
                    | Expression "," [\n]? ElementList!last 
                    | last: Expression "," [\n]? LastElementList  
@@ -288,8 +295,14 @@ syntax ArrowParameters = Id | FormalArgs ;
 
 syntax ArrowFunctionBody = Expression | FunctionBody ; 
 
-syntax Arguments = "(" [\n]* {Expression ","}* ("," LastArgument)? [\n]*")"   //zero o more arguments + optionally last argument
-                 | "(" LastArgument ")" ;                          //last argument 
+syntax Arguments = "(" [\n]* ArgumentList? [\n]* ")" ; 
+
+syntax ArgumentList = Expression 
+                    | Expression "," [\n]? ArgumentList!last 
+                    | last: Expression "," [\n]? LastArgument
+                    | LastArgument
+                    ;
+
 
 syntax LastArgument = "..." Id ; 
 
