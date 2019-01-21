@@ -39,11 +39,12 @@ syntax FromClause
 
 syntax ExportDeclaration
    = "export" "*" FromClause EOS
-   | "export" ExportClause FromClause EOS
-   | "export" ExportClause EOS
-   | "export" VarStatement
-   | "export" FunctionDeclarationStatement
-   | "export" ClassDeclarationStatement;
+   | "export" "default"? ExportClause FromClause EOS
+   | "export" "default"? ExportClause EOS
+   | "export" "default"? VarStatement
+   | "export" "default"? FunctionDeclarationStatement
+   | "export" "default"? ClassDeclarationStatement
+   | "export" "default"? Id EOS;
    //| "export" "default" HoistableDeclaration[Default];
    // | "export" "default" Id EOS;
    // | "export" "default" [lookahead ∉ { function, class }] AssignmentExpression[In] ;
@@ -288,8 +289,19 @@ syntax ArrowParameters = Id | FormalArgs ;
 
 syntax ArrowFunctionBody = Expression | FunctionBody ; 
 
-syntax Arguments = "(" [\n]* {Expression ","}*  ("," LastArgument)? [\n]*")"   //zero o more arguments + optionally last argument
-                 | "(" LastArgument ")" ;                          //last argument 
+syntax Arguments = "(" [\n]* ArgumentList? [\n]* ")" ; 
+
+
+
+syntax ArgumentList = Expression 
+
+                    | Expression "," [\n]? ArgumentList!last 
+
+                    | last: Expression "," [\n]? LastArgument
+
+                    | LastArgument
+
+                    ;       //last argument 
 
 syntax LastArgument = "..." Id ; 
 
