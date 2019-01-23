@@ -175,7 +175,7 @@ syntax MethodDefinition = PropertyName FormalArgs FunctionBody
 syntax PropertyName = Id
 					| String
 					| Numeric 
-					| "[" Expression "]" ;
+					| "[" [\n]* Expression [\n]* "]" ;
 					
 syntax IdName = Reserved 
 			  | Id 
@@ -213,7 +213,7 @@ syntax LastElementList = "..." Id ;
  
  syntax PropertyAssignment = PropertyName (":" | "=") Expression 
  						   | "[" Expression "]" ":" Expression
- 						   | Id
+ 						   | "..."? Id
 						   | MethodDefinition
 						   ;
 /* 
@@ -230,7 +230,7 @@ syntax Expression = "this"
                   | "(" ExpressionSequence ")"   
 				  | function: "function" Id? FormalArgs FunctionBody  
 //				  | "class" Id? ClassTail 
-				  > Expression "[" ExpressionSequence "]" 
+				  > Expression "[" [\n]* ExpressionSequence [\n]* "]" 
 				  | "new" Expression 
 				  > Expression Arguments 
 				  | Expression [\n]* "." IdName 
