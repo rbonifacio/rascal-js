@@ -7,35 +7,41 @@ syntax ImportDeclaration
 	| "import" ModuleSpecifier EOS;
 	
 syntax ImportClause
-	= 
-   Id
-   | String
-   | NameSpaceImport
-   | NamedImports
-   | Id "," NameSpaceImport
-   | Id "," NamedImports;
+  = Id
+  | String
+  | NameSpaceImport
+  | NamedImports
+  | Id "," NameSpaceImport
+  | Id "," NamedImports
+  ;
 
 syntax NameSpaceImport
-   = "*" "as" Id;
+  = "*" "as" Id
+  ;
 
 syntax NamedImports
-   = "{" "}"
-   | "{" ImportsList "}"
-   | "{" ImportsList "," "}";
+  = "{" "}"
+  | "{" ImportsList "}"
+  | "{" ImportsList "," "}"
+  ;
 
 syntax ImportsList
-   = ImportSpecifier
-   | ImportsList "," ImportSpecifier;
+  = ImportSpecifier
+  | ImportsList "," ImportSpecifier
+  ;
 
 syntax ImportSpecifier
-   = Id
-   | Id "as" Id;
+  = Id
+  | Id "as" Id
+  ;
 
 syntax ModuleSpecifier
-	= String;
+  = String
+  ;
 
 syntax FromClause
-	= "from" ModuleSpecifier;
+  = "from" ModuleSpecifier
+  ;
 
 syntax ExportDeclaration
    = "export" "*" FromClause EOS
@@ -50,39 +56,43 @@ syntax ExportDeclaration
    // | "export" "default" [lookahead ∉ { function, class }] AssignmentExpression[In] ;
 
 syntax ExportClause
-   = "{" "}"
-   | "{" ExportsList "}"
-   | "{" ExportsList "," "}";
+  = "{" "}"
+  | "{" ExportsList "}"
+  | "{" ExportsList "," "}"
+  ;
 
 syntax ExportsList
-   = ExportSpecifier
-   | ExportsList "," ExportSpecifier;
+  = ExportSpecifier
+  | ExportsList "," ExportSpecifier
+  ;
 
 syntax ExportSpecifier
-   = Id
-   | Id "as" Id;
+  = Id
+  | Id "as" Id
+  ;
 
 
-syntax Statement = importDecl: ImportDeclaration importDecl 
-  				 | exportDecl: ExportDeclaration exportDecl
-				 | Block 
-                 | VarStatement  
-                 | empty: EmptyStatement
-                 | ExpressionStatement
-                 | IfStatement
-                 | IterationStatement
-                 | ContinueStatement
-                 | BreakStatement
-                 | ReturnStatement
-                 | WithStatement
-                 | LabelledStatement
-                 | SwitchStatement
-                 | ThrowStatement
-                 | TryStatement
-                 | DebuggerStatement
-                 | FunctionDeclarationStatement
-                 | ClassDeclarationStatement
-                 ;
+syntax Statement 
+  = importDecl: ImportDeclaration importDecl 
+  | exportDecl: ExportDeclaration exportDecl
+  | Block 
+  | VarStatement  
+  | empty: EmptyStatement
+  | ExpressionStatement
+  | IfStatement
+  | IterationStatement
+  | ContinueStatement
+  | BreakStatement
+  | ReturnStatement
+  | WithStatement
+  | LabelledStatement
+  | SwitchStatement
+  | ThrowStatement
+  | TryStatement
+  | DebuggerStatement
+  | FunctionDeclarationStatement
+  | ClassDeclarationStatement
+  ;
 
 
 syntax Block = "{" Statement+ "}"  ; 
@@ -189,10 +199,6 @@ syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
  */ 
 syntax ArrayLiteral = "[" [\n]*  ElementList? [\n]* "]"  ; 
 
-//syntax ElementList = { Expression "," }* ("," LastElementList)? 
-//                   | LastElementList 
-//                   ;
-
 syntax ElementList = Expression
                    | Expression "," [\n]? ElementList!last 
                    | last: Expression "," [\n]? LastElementList  
@@ -291,17 +297,12 @@ syntax ArrowFunctionBody = Expression | FunctionBody ;
 
 syntax Arguments = "(" [\n]* ArgumentList? [\n]* ")" ; 
 
-
-
 syntax ArgumentList = Expression 
-
                     | Expression "," [\n]? ArgumentList!last 
-
                     | last: Expression "," [\n]? LastArgument
-
                     | LastArgument
+                    ;
 
-                    ;       //last argument 
 
 syntax LastArgument = "..." Id ; 
 
