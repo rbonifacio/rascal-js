@@ -12,7 +12,7 @@ void testTransform(){
 	//Exp e =  parse(#start[CompilationUnit], file):
 	CompilationUnit cu = parse(#CompilationUnit, file);
 	//cu = constUpperCase(cu);
-	cu = nameToUpper(cu, "caio");
+	cu = constUpperCase(cu);
 	// writeFile(fileLoc, cu);
 	//println(cu);
 	
@@ -22,17 +22,19 @@ void testTransform(){
 
 CompilationUnit constUpperCase(CompilationUnit unit){
 	str constAux;
-
-	return bottom-up visit(unit){
-		case (VarStatement) `<VarModifier vm> <VarDec vd> <EOS capeta>`:{
+	top-down visit(unit){
+		case (VarStatement) `<VarModifier vm> <VarDec vd> <EOS eos>`:{
 			visit(vm) {
 				case(VarModifier) `<VarModifier varMod>`:{
 					if("<varMod>" == "const"){
 						visit(vd){
 							case(VarDec) `<Id nomeConst> = <Expression exp>`:{
 								constAux = "<nomeConst>";
-								println(constAux);
+								unit = nameToUpper(unit, constAux);
+								novoId = parse(#Id, toUpperCase(constAux));
+								insert (VarDec) `<Id novoId>`;
 							}
+							
 						
 						}
 					}
@@ -42,17 +44,26 @@ CompilationUnit constUpperCase(CompilationUnit unit){
 			}	
 		}
 	}
+	println(unit);
+	return unit;
 }
 
 CompilationUnit nameToUpper(CompilationUnit unit, str varName){
-	return bottom-up visit(unit){
-		case (Expression) `<Id id>`:{
-			if("<id>" == varName)
-				println(id);
+	unit = bottom-up visit(unit){
+	    // aparentemente pega apenas o Id direto dentro da expression
+	    case (Expression) `<Id id>`:{
+			if("<id>" == varName){
+				newUpperName = parse(#Id, toUpperCase(varName));
+				insert (Expression) `<Id newUpperName>`; 
+				
+				
+			}
 		}
+		
 	
 	}	
-
+	return unit;
+	
 }
 
 

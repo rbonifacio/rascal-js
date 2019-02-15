@@ -1,17 +1,11 @@
-
 const adriano = {idade: 30} ;
-const caio = 23 ;
-var nao = 13;
-let teste = 991
+const idade = 23 ;
 
+console.log(idade);
+console.log(adriano)
 
-caio = 24;
-caio = 22;
+console.log(adriano.idade)
 
-adriano.idade = 3;
-// function sum(x, y) {
-//     return x + y;
-// }
-// testandofuncao = function(nome) {
-// 	console.log(nome);
-// };
+function isIdoso(adriano){
+	return ADRIANO.idade >= 65;
+}
