@@ -9,14 +9,13 @@ import String;
 void testTransform(){
 	loc fileLoc = |project://rascal-js/transformsrc/rename.js|;
 	str file = readFile(fileLoc);
-	//Exp e =  parse(#start[CompilationUnit], file):
 	CompilationUnit cu = parse(#CompilationUnit, file);
 	findFunctions(cu);
 	
 	// writeFile(fileLoc, cu);
 	
 	
-
+	println(constUpperCase(cu));
 }
 // visita 	 de funcao
 // verificar const
@@ -73,29 +72,13 @@ CompilationUnit nameToUpper(CompilationUnit unit, str varName){
 	
 	}	
 	return unit;
+}
+CompilationUnit constUpperCase(CompilationUnit unit) = top-down visit(unit){
+		case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` => 
+		     (VarStatement) `const <Id newName> = <Expression exp> <EOS eos>`
+		  when newName := rename(nomeConst)  
+};
 	
-}
 
-
-CompilationUnit idiomatic(CompilationUnit unit) {
-   //syntax VarStatement = VarModifier {VarDec ","}+ EOS ; 
-   return bottom-up visit(unit) {
-   		case (VarStatement) `<VarModifier vm> <VarDec vd> <EOS capeta>`:{
-   		//syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
-   			vd = visit(vd) {
-   				case (Id) `<Id id>`:{
-   					if(size("<id>") == 1){
-   						println("Variavel pequena");
-   						//novoNome = parse(#Id,"torres");
-						//insert (Id) `<Id novoNome>`; 
-   					}
-   				}
-   				
-   				
-   			}
-   			insert (VarStatement) `<VarModifier vm> <VarDec vd> <EOS capeta>`;
-   		}
-   		
-   }
-}
+Id rename((Id)`<Id old>`) = parse(#Id, toUpperCase("<old>")); 
 
