@@ -7,46 +7,56 @@ import util::Math;
 import String;
 
 void testTransform(){
-	loc fileLoc = |project://rascal-js/test/function.js|;
+	loc fileLoc = |project://rascal-js/transformsrc/rename.js|;
 	str file = readFile(fileLoc);
 	//Exp e =  parse(#start[CompilationUnit], file):
 	CompilationUnit cu = parse(#CompilationUnit, file);
-	//cu = constUpperCase(cu);
-	cu = constUpperCase(cu);
+	findFunctions(cu);
+	
 	// writeFile(fileLoc, cu);
-	//println(cu);
+	
 	
 
 }
+// visita 	 de funcao
+// verificar const
+// varrer codigo se uma const é redeclarado, se aparecer como parametro, nao aplicar o refatoramento
+// uma varregadora para procurar repeticao e outra pra transformacao
+// fazer renames com diferetnes graus e flexibilizar ao andar
+// introducao de arrow function
 
 
-CompilationUnit constUpperCase(CompilationUnit unit){
-	str constAux;
-	top-down visit(unit){
-		case (VarStatement) `<VarModifier vm> <VarDec vd> <EOS eos>`:{
-			visit(vm) {
-				case(VarModifier) `<VarModifier varMod>`:{
-					if("<varMod>" == "const"){
-						visit(vd){
-							case(VarDec) `<Id nomeConst> = <Expression exp>`:{
-								constAux = "<nomeConst>";
-								unit = nameToUpper(unit, constAux);
-								novoId = parse(#Id, toUpperCase(constAux));
-								insert (VarDec) `<Id novoId>`;
-							}
-							
-						
-						}
-					}
-					 	
-				}
-			
-			}	
+// returns a function tree
+list[FunctionDeclarationStatement] getFunctionsWithConst(list[FunctionDeclarationStatement] functionList){
+	for(func <- functionList) {
+		top-down visit(func){
+			case (VarStatement) `const <Id id> = <Expression exp> <EOS endOfStatement>`:{
+				println("<id>");
+				// do something here
+			}
 		}
 	}
-	println(unit);
-	return unit;
+	
+	return functionList;
 }
+
+list[FunctionDeclarationStatement] findFunctions(CompilationUnit unit){
+	list[FunctionDeclarationStatement] functionList = [];
+	top-down visit(unit){
+		// descobrir como imprimir a arvore do case
+		case(FunctionDeclarationStatement)  `<FunctionDeclarationStatement fd>`:{
+			functionList+= fd;
+			
+			
+		}
+	
+	}
+	for(func <- functionList) {
+    	println(func); 
+  	}
+	return functionList;
+}
+
 
 CompilationUnit nameToUpper(CompilationUnit unit, str varName){
 	unit = bottom-up visit(unit){

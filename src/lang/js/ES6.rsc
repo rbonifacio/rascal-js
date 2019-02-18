@@ -57,12 +57,12 @@ syntax ExportDeclaration
 
 syntax ExportClause
   = "{" "}"
-  | "{" ExportsList "}"
-  | "{" ExportsList "," "}"
+  | "{" [\n]? ExportsList [\n]? "}"
+  | "{" ExportsList "," "}"
   ;
 
 syntax ExportsList
-  = ExportSpecifier
+  = ExportSpecifier [\n]?
   | ExportsList "," ExportSpecifier
   ;
 
