@@ -1,11 +1,9 @@
-const adriano = {idade: 30} ;
-const idade = 23 ;
-
-console.log(idade);
-console.log(adriano)
-
-console.log(adriano.idade)
-
-function isIdoso(adriano){
-	return ADRIANO.idade >= 65;
+function isIdoso(variavel){
+	const adriano = 30;
+	
+	if(adriano == 30){
+		return "30 anos de idade";
+	}
+	
+	
 }
