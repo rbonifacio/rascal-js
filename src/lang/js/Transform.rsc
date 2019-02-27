@@ -6,32 +6,52 @@ import IO;
 import util::Math;
 import String;
 
+// visita de funcao OK
+
+// verificar const OK
+
+// Varrer codigo se uma const é redeclarado, se aparecer como parametro, nao aplicar o refatoramento
+	// desnecessario, visto que caso redeclarado deve ser substituido da mesma maneira,  e não aparenta ser problema
+	// caso passado como parametro.
+
+
+// Varredura para procurar repeticao e outra pra transformacao OK
+
+// Fazer renames com diferetnes graus e flexibilizar ao andar
+	// GRAU 1 : encontrar const dentro de funcoes
+	// Limitacoes: Nenhuma até agora
+	
+	// GRAU 2: encontrar const no aspecto global, e susbstituir em casos não utilizados externamente.
+	// Limitações: Verificar export da variavel ou classe mae, pois isso indicara que será usado em outro arquivo
+	
+	// GRAU 3: substituir todo tipo de const, e procurar o uso delas em outros arquivos
+	// Limitaçoes: nenhuma.
+
+
+// introducao de arrow function
+
+
+
+
 void testTransform(){
 	loc fileLoc = |project://rascal-js/transformsrc/rename.js|;
 	str file = readFile(fileLoc);
 	CompilationUnit unit = parse(#CompilationUnit, file);
-	unit = renameConstInFuctions(unit);
-	//list[FunctionDeclarationStatement] functions = findFunctions(cu);
-	// getFunctionsWithConst(functions);
+	unit = renameConstInFuctions(unit); // this will return the tree with the transformations applied.
+	writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
 	
-	
-	// writeFile(fileLoc, cu);
-	
-	
-	// println(constUpperCase(cu));
 }
-// visita 	 de funcao
-// verificar const
-// varrer codigo se uma const é redeclarado, se aparecer como parametro, nao aplicar o refatoramento
-// uma varregadora para procurar repeticao e outra pra transformacao
-// fazer renames com diferetnes graus e flexibilizar ao andar
-// introducao de arrow function
+
 
 CompilationUnit renameConstInFuctions(CompilationUnit unit){
 	list[str] variableNames = [];
 	unit = top-down visit(unit){
 		case(FunctionDeclarationStatement)  `<FunctionDeclarationStatement fd>` :{
 			fd = visit(fd){
+				// here we use top down search to find the declaration first, and then find where the variables
+				// are being used.
+				
+				// TODO: check case with multiple consts, although not used much: const var1 = 1, var2 = 2 
 				case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` :{
 						variableNames+= "<nomeConst>";
 						newName = rename(nomeConst);
@@ -45,6 +65,8 @@ CompilationUnit renameConstInFuctions(CompilationUnit unit){
 				
 				}					
 			}
+			
+			// TODO , ask professor the need of this second insert.
 			insert (FunctionDeclarationStatement) `<FunctionDeclarationStatement fd>`;
 		}
 	
@@ -55,13 +77,12 @@ CompilationUnit renameConstInFuctions(CompilationUnit unit){
 
 // returns a function tree
 list[FunctionDeclarationStatement] getFunctionsWithConst(list[FunctionDeclarationStatement] functionList){
+	list[FunctionDeclarationStatement] constList = [];
 	for(func <- functionList) {
 		top-down visit(func){
-			case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` => 
-		     		(VarStatement) `const <Id newName> = <Expression exp> <EOS eos>`
-		  			when newName := rename(nomeConst)  
-				
-			
+			case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>`:{
+				constList+= func;
+			}
 		}
 	}
 	
