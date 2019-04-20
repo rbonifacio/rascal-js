@@ -1,2 +1,11 @@
-let amount = 100
-console.log(++amount);
+
+var index = -1;
+while (++index < 10) {
+    console.log(index)
+    break;
+}
+/* .... */
+
+
+
+// revisado ok

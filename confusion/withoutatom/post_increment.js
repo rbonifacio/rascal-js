@@ -1,4 +1,12 @@
-let i = 0
-let j = i;
-i += 1;
-console.log(j);
+let V1 = 0;
+if (V1 == 0) {
+    console.log(true);
+}
+else {
+    console.log(false);
+}
+V1 = V1 + 1;
+ 
+
+//revisado ok
+ 

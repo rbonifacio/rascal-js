@@ -1,3 +1,6 @@
-let weight = 100
-let elevator = weight > 100 ? weight/2 : weight;
-console.log(elevator)
+
+let config = {size: 3, isActive: false}
+const _config = config.isActive === true ? config : {size: 10}
+console.log(_config.size)
+
+// revisado OK , similar bootstrap 

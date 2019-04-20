@@ -1,3 +1,11 @@
-let dogAge = 7;
-let fooDog = dogAge++;
-console.log(fooDog);
+let V1 = 0;
+if (V1++ == 0) {
+    console.log(true);
+}
+else {
+    console.log(false);
+}
+ 
+
+//revisado ok
+ 

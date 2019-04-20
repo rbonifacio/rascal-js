@@ -1,7 +1,12 @@
-let index = 10;
-if(index > 10){
-    console.log(index/10)
+let config = {size: 3, isActive: false}
+let _config;
+if(config.isActive === true){
+    _config = config;
 }
 else{
-    console.log(index)
+    _config = {size: 10};
 }
+console.log(_config.size)
+
+
+// revisado ok

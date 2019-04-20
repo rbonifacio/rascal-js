@@ -1,3 +1,15 @@
-let age = 10;
-age +=1;
-console.log("He is " + age)
+
+var index = -1;
+index = index + 1;
+while (index < 10) {
+    console.log(index)
+    index = index + 1;
+    break;
+}
+/* .... */
+
+
+// revisado ok
+
+
+

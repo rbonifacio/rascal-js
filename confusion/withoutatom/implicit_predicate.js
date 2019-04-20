@@ -1,4 +1,11 @@
-let number = 4;
-if(number%2 != 0)
-    console.log("foo")
-console.log("bar")
+
+let V1 = 1, V2 = 2;
+if ((V2 - V1) == 0){
+    console.log(true);
+}
+else{
+    console.log(false);
+}
+
+
+ // revisado ok, do atom

@@ -1,7 +1,12 @@
-function foo(){
-    console.log("Foo");
+let V1 = 3;
+let V2 = 5;
+let V3 = 0;
+ 
+while (V1 != V2 && ++V1) {
+    V3++;
 }
 
-let variable = 1;
-variable && foo();
-console.log(variable);
+console.log(V1 + V3);
+
+
+// revisado ok
