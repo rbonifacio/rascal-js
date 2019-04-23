@@ -1,11 +1,11 @@
 function resetSchedulerState () {
-    let activatedChildren = {length: 10}
+    let activatedChildren = {length: 10};
     activatedChildren.length = 0;
-    let length = activatedChildren.length
-    let index = length
-    console.log(index)
+    let length = activatedChildren.length;
+    let index = length;
+    console.log(index);
 }
 resetSchedulerState();
 
-
+// 0
 // revisado ok

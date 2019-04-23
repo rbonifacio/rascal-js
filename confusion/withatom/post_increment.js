@@ -5,7 +5,9 @@ if (V1++ == 0) {
 else {
     console.log(false);
 }
- 
+
+
+// true
 
 //revisado ok
  

@@ -1,6 +1,5 @@
 function example(){
     return 10;
-        
 }
 
 if(example() == 10){
@@ -9,5 +8,5 @@ if(example() == 10){
 else{
     console.log(false);
 }
-
+// true
 // revisado ok, pinta no paint depois

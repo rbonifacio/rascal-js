@@ -4,3 +4,4 @@ V1 = 2;
 console.log(V1+V2);
 
 // revisado ok
+// 3

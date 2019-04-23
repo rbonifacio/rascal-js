@@ -22,18 +22,26 @@ import String;
 	// Limitacoes: Nenhuma até agora
 	
 	// GRAU 2: encontrar const no aspecto global, e susbstituir em casos não utilizados externamente.
-	// Limitações: Verificar export da variavel ou classe mae, pois isso indicara que será usado em outro arquivo
+	// OBS: Verificar export da variavel ou classe mae, pois isso indicara que será usado em outro arquivo
 	
 	// GRAU 3: substituir todo tipo de const, e procurar o uso delas em outros arquivos
-	// Limitaçoes: nenhuma.
+	// Limitaçoes: Dificuldade
 
 
 // introducao de arrow function
 
+// DECIDED
+// 2 - confusion atom, tranformar por exemplo operador ternario em ifs, biblioteca rascal para detectar atomos de confusao.
+	// 2.1 comprender os atomos de JS 6 semanas
+	// (6 semanas) 2.2 atomos de confusao em C sao mesmo em atomos de confusao JS , detectecao e validacao e transformacao
+
+// quarta semana q vem 6/03: 	
+// escrever o que aprendeu e o tutorial sobre rascal, como é relacionado com o que ja fizemos.
+// e decidir qual frente vamos atacar.
 
 
 
-void testTransform(){
+void rename(){
 	loc fileLoc = |project://rascal-js/transformsrc/rename.js|;
 	str file = readFile(fileLoc);
 	CompilationUnit unit = parse(#CompilationUnit, file);
@@ -44,36 +52,50 @@ void testTransform(){
 
 
 CompilationUnit renameConstInFuctions(CompilationUnit unit){
-	list[str] variableNames = [];
 	unit = top-down visit(unit){
 		case(FunctionDeclarationStatement)  `<FunctionDeclarationStatement fd>` :{
+			map[str,int] decls = countDeclarations(fd);
 			fd = visit(fd){
 				// here we use top down search to find the declaration first, and then find where the variables
 				// are being used.
-				
-				// TODO: check case with multiple consts, although not used much: const var1 = 1, var2 = 2 
-				case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` :{
-						variableNames+= "<nomeConst>";
-						newName = rename(nomeConst);
-						insert (VarStatement) `const <Id newName> = <Expression exp> <EOS eos>`;
-					}
+				case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` => 
+					 (VarStatement) `const <Id newName> = <Expression exp> <EOS eos>`
+					 when decls["<nomeConst>"] == 1,
+					 	  newName := rename(nomeConst)
 				case (Expression) `<Id nomeConst>`:{
-					if(indexOf(variableNames, "<nomeConst>") != -1){
+					if("<nomeConst>" in decls && decls["<nomeConst>"] == 1){
 						newName = rename(nomeConst);
 						insert (Expression) `<Id newName>`;
 					}
 				
-				}					
+				}  
+									
 			}
-			
-			// TODO , ask professor the need of this second insert.
 			insert (FunctionDeclarationStatement) `<FunctionDeclarationStatement fd>`;
 		}
 	
 	}
-	println(unit);
 	return unit;
 } 
+
+
+map[str,int] countDeclarations(FunctionDeclarationStatement fd){
+	map[str,int] res = ();
+	top-down visit(fd){
+		case (VarStatement) `const <Id nomeConst> = <Expression exp> <EOS eos>` :{
+			str aux = "<nomeConst>";
+			if(aux in res){
+				res[aux] = res[aux]+1; 
+			}
+			else{
+				res[aux] = 1;
+			}
+		}
+	}
+	return res;
+}
+
+
 
 // returns a function tree
 list[FunctionDeclarationStatement] getFunctionsWithConst(list[FunctionDeclarationStatement] functionList){

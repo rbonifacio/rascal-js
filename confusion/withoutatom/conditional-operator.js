@@ -6,7 +6,7 @@ if(config.isActive === true){
 else{
     _config = {size: 10};
 }
-console.log(_config.size)
+console.log(_config.size);
 
-
+// 10
 // revisado ok
