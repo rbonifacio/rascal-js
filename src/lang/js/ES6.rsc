@@ -75,7 +75,7 @@ syntax ExportSpecifier
 syntax Statement 
   = importDecl: ImportDeclaration importDecl 
   | exportDecl: ExportDeclaration exportDecl
-  | Block 
+  | Block
   | VarStatement  
   | empty: EmptyStatement
   | ExpressionStatement
@@ -95,7 +95,7 @@ syntax Statement
   ;
 
 
-syntax Block = "{" Statement+ "}"  ; 
+syntax Block = "{" Statement+ "}" ; 
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
 
@@ -211,6 +211,14 @@ syntax LastElementList = "..." Id ;
  * Object Literal 
  */ 
  
+ syntax ObjectMerging = "{" [\n]* ObjectMergingList [\n]* "}";
+ 
+ syntax ObjectMergingList =   "..." ObjectMergeOptions 
+ 							| "..." ObjectMergeOptions "," OPTIONALNEWLINE ObjectMergingList;
+ 
+ syntax ObjectMergeOptions = Expression
+ ;
+ 
  syntax ObjectLiteral = "{" [\n]* PropertyAssignmentList? [\n]*"}" ;
  
  syntax PropertyAssignmentList = PropertyAssignment ","?  
@@ -219,7 +227,7 @@ syntax LastElementList = "..." Id ;
  
  syntax PropertyAssignment = PropertyName (":" | "=") Expression 
  						   | "[" Expression "]" ":" Expression
- 						   | "..."? Id
+ 						   | Id
 						   | MethodDefinition
 						   ;
 /* 
@@ -230,6 +238,7 @@ syntax Expression = "this"
 				  | Id  
                   | Literal
                   | ArrayLiteral
+                  | ObjectMerging
                   | ObjectLiteral
                   > arrowExpression: ArrowParameters "=\>" [\n]*  Expression 
                   > arrowParameter: ArrowParameters "=\>" [\n]* Block
