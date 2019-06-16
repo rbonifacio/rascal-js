@@ -20,9 +20,9 @@ void refactorTernary(){
 
 
 CompilationUnit removeTernary(CompilationUnit unit) = top-down visit(unit) {
-  case (Statement) `<Id nomeConst> = <Expression cond> ? <Expression e1> : <Expression e2>` : {
-  		println("Encontrou tennario");
-   	   //insert (Statement) `if(<Expression cond>) <Id nomeConst> = <Expression e1> else <Id nomeConst> = <Expression e2>`
-   }
+// isso ja da problema de concrete syntax
+  case (Statement) `<Id nomeConst> = <Expression cond> ? <Expression e1> : <Expression e2> ;` =>
+   	   (Statement) `if(<Expression cond>) \n <Id nomeConst> = <Expression e1>; else <Id nomeConst> = <Expression e2>;`
+   
 };
 

@@ -9,34 +9,55 @@ import String;
 
 
 
-void refactorPostIncrement(){
-	loc fileLoc = |project://rascal-js/transformsrc/increment.js|;
-	str file = readFile(fileLoc);
-	CompilationUnit unit = parse(#CompilationUnit, file);
-	unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
-	writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
-	
+public tuple[int, CompilationUnit] refactorPostIncrement(CompilationUnit unit){
+	int total = 0;
+	unit = top-down visit(unit){
+		case (Expression) `<Id name>++` : {
+			total = total + 1;
+		}
+		case (Expression) `<Id name>--` : {
+			total = total + 1;
+		}
+	};
+	return <total, unit>;
+
+}
+
+
+public tuple[int, CompilationUnit] refactorPreIncrement(CompilationUnit unit){
+	int total = 0;
+	unit = top-down visit(unit){
+		case (Expression) `++<Id name>` : {
+			total = total + 1;
+		}
+		case (Expression) `--<Id name>` : {
+			total = total + 1;
+		}
+	};
+	return <total, unit>;
+
 }
 
 
 
-void refactorPreIncrement(){
-	loc fileLoc = |project://rascal-js/transformsrc/increment.js|;
+void runRefactorPostIncrement(){
+	loc fileLoc = |project://rascal-js/transformsrc/postincrement.js|;
 	str file = readFile(fileLoc);
 	CompilationUnit unit = parse(#CompilationUnit, file);
-	unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
-	writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
-	
+	tuple[int count , CompilationUnit refactoredUnit] postIncrement = refactorPostIncrement(unit);
+	print("Post Increment Count: ");
+	println(postIncrement.count);
+	//unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
+	//writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
+}
+void runRefactorPreIncrement(){
+	loc fileLoc = |project://rascal-js/transformsrc/postincrement.js|;
+	str file = readFile(fileLoc);
+	CompilationUnit unit = parse(#CompilationUnit, file);
+	tuple[int count , CompilationUnit refactoredUnit] preIncrement = refactorPreIncrement(unit);
+	print("Pre Increment Count: ");
+	println(preIncrement.count);
+	//unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
+	//writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
 }
 
-
-
-CompilationUnit removePostIncrement(CompilationUnit unit) = top-down visit(unit) {
-  case (Expression) `<Id name>++` =>
-   	   (Expression) `<Id name> = <Id name> + 1`
-};
-
-CompilationUnit removePreIncrement(CompilationUnit unit) = top-down visit(unit) {
-  case (Expression) `<Id name>++` =>
-   	   (Expression) `<Id name> = <Id name> + 1`
-};
