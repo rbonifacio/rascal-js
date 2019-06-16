@@ -275,7 +275,7 @@ syntax Expression = "this"
   				  > right binOr: Expression lhs "|" !>> [|=] [\n]? Expression rhs
   				  > left and: Expression lhs "&&" [\n]? Expression rhs
   				  > left or: Expression lhs "||" [\n]? Expression rhs
-  			      > Expression!cond cond [\n]? "?" [\n]? Expression!cond then [\n]? ":" [\n]? Expression elseExp 
+  			      > Expression!cond cond OPTIONALNEWLINE "?" OPTIONALNEWLINE Expression!cond then OPTIONALNEWLINE ":" OPTIONALNEWLINE Expression elseExp 
    			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") [\n]? Expression rhs
 				          | assignMul: Expression lhs "*=" [\n]? Expression rhs
 				          | assignDiv: Expression lhs "/=" [\n]? Expression rhs
@@ -313,6 +313,7 @@ syntax VarModifier = "var"
                    
 syntax EOS = ";" | [\n];
            
+syntax OPTIONALNEWLINE = [\n]?;
 
 syntax Literal
  = null: "null"
