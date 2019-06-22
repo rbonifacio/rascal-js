@@ -7,7 +7,7 @@ import util::Math;
 import String;
 
 private Block transformStatementsInBlock(str stmt) {
-	return parse(#Block, "{\n" + stmt + "\n}");
+	return parse(#Block, "{\n" + "\t"+ stmt + "\n}");
 }
 
 
@@ -16,14 +16,17 @@ public tuple[int, start[CompilationUnit]] refactorTernary(start[CompilationUnit]
 	unit = top-down visit(unit){
 		case (Statement) `<Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
 			total = total + 1;
-			stm = [Statement] "<id> = <exp1>;";
-			stm_string = unparse(stm);
-			Block block = transformStatementsInBlock(stm_string);
-			insert (Statement) `if(<Expression cond>)  <Block block>  else   <Id id> = <Expression exp2>;`;
+			stm1 = [Statement] "<id> = <exp1>;";
+			stm_string1 = unparse(stm1);
+			stm2 = [Statement] "<id> = <exp2>;";
+			stm_string2 = unparse(stm2);
+			Block block1 = transformStatementsInBlock(stm_string1);
+			Block block2 = transformStatementsInBlock(stm_string2);
+			insert (Statement) `if(<Expression cond>)  <Block block1>  else  <Block block2>`;
 		}
-		case (VarStatement) `<VarModifier vm> <Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
-			total = total + 1;
-			//insert (Statement) `if(<Expression cond>) { <VarModifier vm> <Id id> = <Expression exp1>; } else { <VarModifier vm > <Id id> = <Expression exp2>; }`;
+		case (Statement) `let <Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
+			total = total;
+			//insert (Statement) `if(<Expression cond>) <Id id> = <Expression exp1>; else <Id id> = <Expression exp2>;`;
 		}
 	};
 	return <total, unit>;
