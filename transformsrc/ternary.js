@@ -15,12 +15,12 @@ newline3 = cond13 ? exp13
                   : exp23
 
 // common case  -- we do not refactor this
-object = {
-    property: student.name ? student.name.first :  ''
-}
-object2 = {
-    property: student.name ? 'YES' :  'NO'
-}
+// object = {
+//     property: student.name ? student.name.first :  ''
+// }
+// object2 = {
+//     property: student.name ? 'YES' :  'NO'
+// }
 
 
 // complex case

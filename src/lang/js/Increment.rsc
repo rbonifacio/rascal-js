@@ -6,17 +6,24 @@ import IO;
 import util::Math;
 import String;
 
-
+private Block transformStatementsInBlock(str stmt) {
+	return parse(#Block, "{\n" + stmt + "\n}");
+}
 
 
 public tuple[int, start[CompilationUnit]] refactorTernary(start[CompilationUnit] unit){
 	int total = 0;
 	unit = top-down visit(unit){
-		case (Expression) `<Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2>` : {
+		case (Statement) `<Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
 			total = total + 1;
+			stm = [Statement] "<id> = <exp1>;";
+			stm_string = unparse(stm);
+			Block block = transformStatementsInBlock(stm_string);
+			insert (Statement) `if(<Expression cond>)  <Block block>  else   <Id id> = <Expression exp2>;`;
 		}
 		case (VarStatement) `<VarModifier vm> <Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
 			total = total + 1;
+			//insert (Statement) `if(<Expression cond>) { <VarModifier vm> <Id id> = <Expression exp1>; } else { <VarModifier vm > <Id id> = <Expression exp2>; }`;
 		}
 	};
 	return <total, unit>;
@@ -63,13 +70,14 @@ void runRefactorTernary(loc baseDir){
         println("[parsing file:] " + baseDir.path);
 		print("Ternary Count: ");
 		println(ternary.count);
+		writeFile(baseDir, ternary.refactoredUnit); // this will overwrite the file with the transformation.
      }
      catch ParseError(loc l): {
      	print("[parsing file:] " + baseDir.path);
     	println("... found an error at line <l.begin.line>, column <l.begin.column> ");
      }
-    //unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
-	//writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
+    
+	 
 }
 
 
