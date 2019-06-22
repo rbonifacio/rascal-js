@@ -62,12 +62,12 @@ syntax ExportClause
   ;
 
 syntax ExportsList
-  = ExportSpecifier [\n]?
-  | ExportsList "," ExportSpecifier
+  = ExportSpecifier
+  | ExportsList "," OPTIONALNEWLINE ExportSpecifier
   ;
 
 syntax ExportSpecifier
-  = Id
+  = Id 
   | Id "as" Id
   ;
 
@@ -227,9 +227,11 @@ syntax LastElementList = "..." Id ;
  
  syntax PropertyAssignment = PropertyName (":" | "=") Expression 
  						   | "[" Expression "]" ":" Expression
- 						   | Id
+ 						   | "..."? Id
 						   | MethodDefinition
 						   ;
+						   
+
 /* 
  * Expression
  */ 
@@ -238,7 +240,7 @@ syntax Expression = "this"
 				  | Id  
                   | Literal
                   | ArrayLiteral
-                  | ObjectMerging
+                  //| ObjectMerging
                   | ObjectLiteral
                   > arrowExpression: ArrowParameters "=\>" [\n]*  Expression 
                   > arrowParameter: ArrowParameters "=\>" [\n]* Block

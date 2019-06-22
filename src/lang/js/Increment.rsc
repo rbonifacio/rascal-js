@@ -12,7 +12,10 @@ import String;
 public tuple[int, start[CompilationUnit]] refactorTernary(start[CompilationUnit] unit){
 	int total = 0;
 	unit = top-down visit(unit){
-		case (Expression) `<Expression cond> <OPTIONALNEWLINE nl1> ? <Expression exp1> <OPTIONALNEWLINE nl2> : <OPTIONALNEWLINE nl3><Expression exp2>` : {
+		case (Expression) `<Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2>` : {
+			total = total + 1;
+		}
+		case (VarStatement) `<VarModifier vm> <Id id>  = <Expression cond> <OPTIONALNEWLINE nl1> ? <OPTIONALNEWLINE nl2> <Expression exp1> <OPTIONALNEWLINE nl3> : <OPTIONALNEWLINE nl4><Expression exp2> <EOS eos>` : {
 			total = total + 1;
 		}
 	};
@@ -50,6 +53,25 @@ public tuple[int, start[CompilationUnit]] refactorPreIncrement(start[Compilation
 	return <total, unit>;
 
 }
+
+void runRefactorTernary(loc baseDir){
+	//|project://rascal-js/projects/bootstrap-4-dev/js/src|
+	try {
+        contents = readFile(baseDir);
+    	start[CompilationUnit] unit = parse(#start[CompilationUnit], contents);
+        tuple[int count , start[CompilationUnit] refactoredUnit] ternary = refactorTernary(unit);
+        println("[parsing file:] " + baseDir.path);
+		print("Ternary Count: ");
+		println(ternary.count);
+     }
+     catch ParseError(loc l): {
+     	print("[parsing file:] " + baseDir.path);
+    	println("... found an error at line <l.begin.line>, column <l.begin.column> ");
+     }
+    //unit = removePostIncrement(unit); // this will return the tree with the transformations applied.
+	//writeFile(fileLoc, unit); // this will overwrite the file with the transformation. 
+}
+
 
 
 
