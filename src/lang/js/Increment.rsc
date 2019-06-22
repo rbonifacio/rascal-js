@@ -35,6 +35,19 @@ public tuple[int, start[CompilationUnit]] refactorTernary(start[CompilationUnit]
 
 
 
+public tuple[int, start[CompilationUnit]] refactorSingleLineIfStatement(start[CompilationUnit] unit){
+	int total = 0;
+	unit = top-down visit(unit){
+		case (Statement) `if (<Expression exp>) <Statement stm>` : {
+			total = total + 1;
+			//insert (Statement) `if(<Expression cond>)  <Block block1>  else  <Block block2>`;
+		}
+	};
+	return <total, unit>;
+
+}
+
+
 public tuple[int, start[CompilationUnit]] refactorPostIncrement(start[CompilationUnit] unit){
 	int total = 0;
 	unit = top-down visit(unit){
@@ -63,6 +76,27 @@ public tuple[int, start[CompilationUnit]] refactorPreIncrement(start[Compilation
 	return <total, unit>;
 
 }
+
+
+void runRefactorIf(loc baseDir){
+	//|project://rascal-js/projects/bootstrap-4-dev/js/src|
+	try {
+        contents = readFile(baseDir);
+    	start[CompilationUnit] unit = parse(#start[CompilationUnit], contents);
+        tuple[int count , start[CompilationUnit] refactoredUnit] refactor = refactorSingleLineIfStatement(unit);
+        println("[parsing file:] " + baseDir.path);
+		print("Single line if Count: ");
+		println(refactor.count);
+		writeFile(baseDir, refactor.refactoredUnit); // this will overwrite the file with the transformation.
+     }
+     catch ParseError(loc l): {
+     	print("[parsing file:] " + baseDir.path);
+    	println("... found an error at line <l.begin.line>, column <l.begin.column> ");
+     }
+    
+	 
+}
+
 
 void runRefactorTernary(loc baseDir){
 	//|project://rascal-js/projects/bootstrap-4-dev/js/src|

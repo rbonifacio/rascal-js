@@ -94,7 +94,6 @@ syntax Statement
   | ClassDeclarationStatement
   ;
 
-
 syntax Block = "{" Statement+ "}" ; 
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
