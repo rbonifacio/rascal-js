@@ -75,9 +75,9 @@ syntax ExportSpecifier
 syntax Statement 
   = importDecl: ImportDeclaration importDecl 
   | exportDecl: ExportDeclaration exportDecl
-  | Block
+  | empty: EmptyStatement empty
+  | block: Block block
   | VarStatement  
-  | empty: EmptyStatement
   | ExpressionStatement
   | IfStatement
   | IterationStatement
@@ -92,17 +92,23 @@ syntax Statement
   | DebuggerStatement
   | FunctionDeclarationStatement
   | ClassDeclarationStatement
+  
   ;
 
-syntax Block = "{" Statement+ "}" ; 
+syntax Block = "{" Statement+ "}" OPTIONALNEWLINE ; 
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
 
-syntax EmptyStatement = ";" | [\n] ;
+syntax EmptyStatement = ";" | "\n" ;
 
 syntax ExpressionStatement = Expression!function  EOS;
 
-syntax IfStatement = "if" "(" Expression ")" Statement ("else" Statement)? ;
+// nao ta sendo usado agora, mas precisamos
+// queriamos fazeer um statement not empty e not block
+syntax SingleLineIfStatement = "if" "(" Expression ")" Statement!empty;
+
+syntax IfStatement =     "if" "(" Expression ")"  Statement!empty ("else" Statement!empty)?;
+						//> "if" "(" Expression ")" Statement!empty ("else" Statement)? ;
 
 //TODO: missing several "for statement" options
 syntax IterationStatement = "do" [\n]* Statement!empty "while" "(" Expression ")" EOS

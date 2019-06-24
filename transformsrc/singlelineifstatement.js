@@ -1,6 +1,41 @@
-if(caio)
-    testando = 3
-
-if(caiocerto){
-    testando = 9
+if(caio) {
+  console.log(caio);
 }
+else {
+  console.log(caio);
+}
+
+
+if(caio) 
+  console.log(caio)
+else
+  console.log(caio)
+
+if(caio) 
+  console.log(caio);
+else
+  console.log(caio);
+
+
+if(caio) 
+  console.log(caio)
+
+else
+  console.log(caio)
+
+
+if(caio) {
+  console.log(caio)
+}
+else
+  console.log(caio)
+
+if(caio)
+{
+  console.log(caio)
+}
+else
+{
+  console.log(caio)
+}
+

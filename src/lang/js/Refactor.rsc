@@ -1,4 +1,4 @@
-module lang::js::Increment
+module lang::js::Refactor
 
 import lang::js::ES6;
 import ParseTree; 
@@ -38,10 +38,20 @@ public tuple[int, start[CompilationUnit]] refactorTernary(start[CompilationUnit]
 public tuple[int, start[CompilationUnit]] refactorSingleLineIfStatement(start[CompilationUnit] unit){
 	int total = 0;
 	unit = top-down visit(unit){
-		case (Statement) `if (<Expression exp>) <Statement stm>` : {
-			total = total + 1;
-			//insert (Statement) `if(<Expression cond>)  <Block block1>  else  <Block block2>`;
-		}
+		case (EOS) `<EOS sif>` : {
+			//Expression exp = "a";
+			//Statement stm = "a";
+			println("Entrou aki");
+			//visit(sif){
+			//	case(SingleLineIfStatement) `if (<Expression exp1>) <Statement stm1>` :{
+			//		//exp = exp1;
+			//		//stm = stm1;
+			//		println("Entrou aki");
+			//		println(stm1);
+			//	}
+			//};
+			//insert (IfStatement) `if (<Expression exp>) { <ExpressionStatement stm> }`;
+		}		
 	};
 	return <total, unit>;
 
@@ -120,7 +130,7 @@ void runRefactorTernary(loc baseDir){
 
 
 
-
+// nao ta sendo usado agora
 void runRefactorPostIncrement(loc baseDir){
 	//|project://rascal-js/projects/bootstrap-4-dev/js/src|
 	entries = listJSFiles(baseDir);
