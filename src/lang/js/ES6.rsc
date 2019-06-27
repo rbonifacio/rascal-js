@@ -27,7 +27,7 @@ syntax NamedImports
 
 syntax ImportsList
   = ImportSpecifier
-  | ImportsList "," ImportSpecifier
+  | ImportsList "," [\n]* ImportSpecifier
   ;
 
 syntax ImportSpecifier
@@ -63,7 +63,7 @@ syntax ExportClause
 
 syntax ExportsList
   = ExportSpecifier
-  | ExportsList "," OPTIONALNEWLINE ExportSpecifier
+  | ExportsList "," [\n]*  ExportSpecifier
   ;
 
 syntax ExportSpecifier
