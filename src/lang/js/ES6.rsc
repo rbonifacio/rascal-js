@@ -95,7 +95,7 @@ syntax Statement
   
   ;
 
-syntax Block = "{" Statement+ "}" OPTIONALNEWLINE ; 
+syntax Block = "{" Statement+ "}" EOS ; 
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
 
