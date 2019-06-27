@@ -75,7 +75,7 @@ syntax ExportSpecifier
 syntax Statement 
   = importDecl: ImportDeclaration importDecl 
   | exportDecl: ExportDeclaration exportDecl
-  | block: Block block
+  | block: BlockWithEOS block
   | VarStatement  
   | empty: EmptyStatement empty
   | ExpressionStatement
@@ -95,8 +95,8 @@ syntax Statement
   
   ;
 
-syntax Block = "{" Statement+ "}" EOS ;
-syntax BlockWithoutEOS = "{" Statement+ "}";
+syntax Block = "{" Statement+ "}" ;
+syntax BlockWithEOS = "{" Statement+ "}" EOS;
  
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
@@ -107,6 +107,9 @@ syntax ExpressionStatement = Expression!function  EOS;
 
 
 syntax IfStatement = "if" "(" Expression ")" [\n]* Statement!empty ("else" [\n]* Statement!empty)?;
+
+
+
 
 //TODO: missing several "for statement" options
 syntax IterationStatement = "do" [\n]* Statement!empty "while" "(" Expression ")" EOS
@@ -140,13 +143,13 @@ syntax CaseClause = "case" Expression ":" Statement*
                   
 syntax ThrowStatement = "throw" !>> [\n\r] Expression EOS ; 
 
-syntax TryStatement = "try" BlockWithoutEOS CatchClause FinallyClause?
-                    | "try" BlockWithoutEOS FinallyClause? 
+syntax TryStatement = "try" Block CatchClause FinallyClause?
+                    | "try" Block FinallyClause? 
                     ;
                     
-syntax CatchClause = "catch" "(" Id ")" BlockWithoutEOS ; 
+syntax CatchClause = "catch" "(" Id ")" Block ; 
 
-syntax FinallyClause = "finally" BlockWithoutEOS ; 
+syntax FinallyClause = "finally" Block ; 
 
 syntax DebuggerStatement = "debugger" EOS ; 
 
@@ -246,7 +249,7 @@ syntax Expression = "this"
                   //| ObjectMerging
                   | ObjectLiteral
                   > arrowExpression: ArrowParameters "=\>" [\n]*  Expression 
-                  > arrowParameter: ArrowParameters "=\>" [\n]* BlockWithoutEOS
+                  > arrowParameter: ArrowParameters "=\>" [\n]* Block
                   | "(" ExpressionSequence ")"   
 				  | function: "function" Id? FormalArgs FunctionBody  
 //				  | "class" Id? ClassTail 
