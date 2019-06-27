@@ -95,7 +95,9 @@ syntax Statement
   
   ;
 
-syntax Block = "{" Statement+ "}" EOS ; 
+syntax Block = "{" Statement+ "}" EOS ;
+syntax BlockWithoutEOS = "{" Statement+ "}";
+ 
 
 syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
 
@@ -104,7 +106,7 @@ syntax EmptyStatement = ";" | [\n] ;
 syntax ExpressionStatement = Expression!function  EOS;
 
 
-syntax IfStatement = "if" "(" Expression ")" [\n]* Statement ("else" [\n]* Statement)?;
+syntax IfStatement = "if" "(" Expression ")" [\n]* Statement!empty ("else" [\n]* Statement!empty)?;
 
 //TODO: missing several "for statement" options
 syntax IterationStatement = "do" [\n]* Statement!empty "while" "(" Expression ")" EOS
@@ -138,13 +140,13 @@ syntax CaseClause = "case" Expression ":" Statement*
                   
 syntax ThrowStatement = "throw" !>> [\n\r] Expression EOS ; 
 
-syntax TryStatement = "try" Block CatchClause FinallyClause?
-                    | "try" Block FinallyClause? 
+syntax TryStatement = "try" BlockWithoutEOS CatchClause FinallyClause?
+                    | "try" BlockWithoutEOS FinallyClause? 
                     ;
                     
-syntax CatchClause = "catch" "(" Id ")" Block ; 
+syntax CatchClause = "catch" "(" Id ")" BlockWithoutEOS ; 
 
-syntax FinallyClause = "finally" Block ; 
+syntax FinallyClause = "finally" BlockWithoutEOS ; 
 
 syntax DebuggerStatement = "debugger" EOS ; 
 
@@ -244,7 +246,7 @@ syntax Expression = "this"
                   //| ObjectMerging
                   | ObjectLiteral
                   > arrowExpression: ArrowParameters "=\>" [\n]*  Expression 
-                  > arrowParameter: ArrowParameters "=\>" [\n]* Block
+                  > arrowParameter: ArrowParameters "=\>" [\n]* BlockWithoutEOS
                   | "(" ExpressionSequence ")"   
 				  | function: "function" Id? FormalArgs FunctionBody  
 //				  | "class" Id? ClassTail 
