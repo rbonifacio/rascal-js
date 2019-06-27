@@ -104,7 +104,7 @@ syntax EmptyStatement = ";" | [\n] ;
 syntax ExpressionStatement = Expression!function  EOS;
 
 
-syntax IfStatement =    "if" "(" Expression ")" Statement ("else" Statement)?;
+syntax IfStatement = "if" "(" Expression ")" [\n]* Statement ("else" [\n]* Statement)?;
 
 //TODO: missing several "for statement" options
 syntax IterationStatement = "do" [\n]* Statement!empty "while" "(" Expression ")" EOS
