@@ -26,8 +26,8 @@ syntax NamedImports
   ;
 
 syntax ImportsList
-  = ImportSpecifier
-  | ImportsList "," [\n]* ImportSpecifier
+  = [\n]* ImportSpecifier [\n]*  
+  | ImportsList "," [\n]* ImportSpecifier [\n]*  
   ;
 
 syntax ImportSpecifier
@@ -62,8 +62,8 @@ syntax ExportClause
   ;
 
 syntax ExportsList
-  = ExportSpecifier
-  | ExportsList "," [\n]*  ExportSpecifier
+  = [\n]* ExportSpecifier [\n]*
+  | ExportsList "," [\n]* ExportSpecifier [\n]*
   ;
 
 syntax ExportSpecifier
