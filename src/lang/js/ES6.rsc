@@ -223,7 +223,7 @@ syntax LastElementList = "..." Id ;
  syntax ObjectLiteral = "{" [\n]* PropertyAssignmentList? [\n]*"}" ;
  
  syntax PropertyAssignmentList = PropertyAssignment ","?  
-                               | PropertyAssignment "," [\n]? PropertyAssignmentList
+                               | PropertyAssignment "," [\n]* PropertyAssignmentList
                                ;
  
  syntax PropertyAssignment = PropertyName (":" | "=") Expression 
