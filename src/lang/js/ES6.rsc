@@ -295,7 +295,7 @@ syntax Expression = "this"
   				  > right binOr: Expression lhs "|" !>> [|=] [\n]? Expression rhs
   				  > left and: Expression lhs "&&" [\n]* Expression rhs
   				  > left or: Expression lhs "||" [\n]* Expression rhs
-  			      > Expression!cond cond [\n]* "?" [\n]* Expression!cond then [\n]* ":" [\n]* Expression elseExp 
+  			      > Expression!cond cond NewLines "?" NewLines Expression!cond then NewLines ":" NewLines Expression elseExp 
    			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") [\n]? Expression rhs
 				          | assignMul: Expression lhs "*=" [\n]? Expression rhs
 				          | assignDiv: Expression lhs "/=" [\n]? Expression rhs
@@ -309,8 +309,9 @@ syntax Expression = "this"
 				          | assignBinXor: Expression lhs "^=" [\n]? Expression rhs
 				          | assignBinOr: Expression lhs "|=" [\n]? Expression rhs );
 
+syntax NewLines = [\n]*;  
   
-syntax ExpressionSequence =  { Expression "," }+;    
+syntax ExpressionSequence =  { Expression "," }+; 
 
 syntax ArrowParameters = Id | FormalArgs ; 
 
