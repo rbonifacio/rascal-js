@@ -162,12 +162,12 @@ syntax FunctionDeclarationStatement = "function" Id FormalArgs FunctionBody ;
 syntax FormalArgs = "(" FormalArgList ")" ; 
 
 syntax FormalArgList = {FormalArg ","}* ("," LastFormalArg) ? 
-                     | ArrayLiteral 
-                     | ObjectLiteral ; 
+                     | [\n]*  ArrayLiteral 
+                     | [\n]*  ObjectLiteral ; 
 
-syntax FormalArg = Id ("=" Expression)? ;
+syntax FormalArg = [\n]* Id ("=" Expression)? ;
 
-syntax LastFormalArg = "..." Id ;   
+syntax LastFormalArg = [\n]*  "..." Id ;   
 
 syntax FunctionBody = [\n]* "{" Statement* "}" ; 
 

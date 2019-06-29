@@ -119,10 +119,7 @@ jQuery.extend( {
 				for ( ; i < max; i++ ) {
 					option = options[ i ];
 
-					if ( option.selected &&
-
-							// Don't return options that are disabled or in a disabled optgroup
-							!option.disabled &&
+					if ( option.selected && !option.disabled &&
 							( !option.parentNode.disabled ||
 								!nodeName( option.parentNode, "optgroup" ) ) ) {
 
