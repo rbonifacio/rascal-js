@@ -4,6 +4,7 @@ import lang::js::ES6;
 import ParseTree; 
 import IO;
 import util::Math;
+import String;
 
 /**
  * Parse all files within the testes directory.
@@ -16,16 +17,25 @@ void parseAllFiles(bool verbose, loc baseDir) {
   println(entries);
   for(loc s <- entries) {
      if(verbose) { 
-        print("[parsing file:] " + s.path);
+        //print("[parsing file:] " + s.path);
+        ;
      }
      try {
         contents = readFile(s);
-    	start[CompilationUnit] cu = parse(#start[CompilationUnit], contents);
-        if(verbose) {println("... ok");}
+    	start[CompilationUnit] cu = parse(#start[CompilationUnit], contents, allowAmbiguity=true);
+        
+        //if(verbose) {println("... ok");}
         ok = ok + 1.0;
      }
+     //catch : {
+     //   if(verbose) {
+     //      print("[parsing file:] " + s.path);
+     //   }
+     //   println("... NOT OK "); 
+     //   nok = nok + 1.0;
+     //}
      catch ParseError(loc l): {
-        if(!verbose) {
+        if(verbose) {
            print("[parsing file:] " + s.path);
         }
         println("... found an error at line <l.begin.line>, column <l.begin.column> "); 
@@ -50,7 +60,7 @@ list[loc] listJSFiles(loc location) {
       res = res + (listJSFiles(l));
     }
     else {
-      if(l.extension == "js") {
+      if(l.extension == "js" && !contains(l.path,".min")) {
          res = l + res;
       };
     };

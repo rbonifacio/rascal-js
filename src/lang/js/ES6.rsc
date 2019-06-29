@@ -1,5 +1,6 @@
 module lang::js::ES6
 
+
 start syntax CompilationUnit = Statement+;
 
 syntax ImportDeclaration
@@ -57,7 +58,7 @@ syntax ExportDeclaration
 
 syntax ExportClause
   = "{" "}"
-  | "{" [\n]? ExportsList [\n]? "}"
+  | "{" ExportsList  "}"
   | "{" ExportsList "," "}"
   ;
 
@@ -103,10 +104,10 @@ syntax VarStatement = VarModifier {VarDec ","}+ EOS ;
 
 syntax EmptyStatement = ";" | [\n] ;
 
-syntax ExpressionStatement = Expression!function  EOS;
+syntax ExpressionStatement = expe: Expression!function  EOS;
 
 
-syntax IfStatement = "if" "(" Expression ")" [\n]* Statement!empty ("else" [\n]* Statement!empty)?;
+syntax IfStatement = "if" "(" [\n]* Expression [\n]* ")" [\n]* Statement!empty ("else" [\n]* Statement!empty)?;
 
 
 
@@ -198,7 +199,7 @@ syntax IdName = Reserved
 			  ; 					
 											
                               
-syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
+syntax VarDec = [\n]? (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]* Expression)?;
 
 /*
  * Array Literal 
@@ -206,10 +207,10 @@ syntax VarDec = (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]? Expression)?;
 syntax ArrayLiteral = "[" [\n]*  ElementList? [\n]* "]"  ; 
 
 syntax ElementList = Expression
-                   | Expression "," [\n]? ElementList!last 
-                   | last: Expression "," [\n]? LastElementList  
+                   | Expression "," [\n]* ElementList!last 
+                   | last: Expression "," [\n]* LastElementList  
                    | LastElementList 
-                   | empty: "," [\n]? ElementList? ; 
+                   | empty: "," [\n]* ElementList? ; 
                    
 syntax LastElementList = "..." Id ;                    
 
@@ -237,6 +238,8 @@ syntax LastElementList = "..." Id ;
 						   | MethodDefinition
 						   ;
 						   
+
+
 
 /* 
  * Expression
@@ -305,7 +308,8 @@ syntax Expression = "this"
 				          | assignBinAnd: Expression lhs "&=" [\n]? Expression rhs
 				          | assignBinXor: Expression lhs "^=" [\n]? Expression rhs
 				          | assignBinOr: Expression lhs "|=" [\n]? Expression rhs );
-				  
+
+  
 syntax ExpressionSequence =  { Expression "," }+;    
 
 syntax ArrowParameters = Id | FormalArgs ; 

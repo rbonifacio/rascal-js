@@ -1,0 +1,30 @@
+freeCodeCamp,117147,303532,22146,git://github.com/freeCodeCamp/freeCodeCamp.git,The https://www.freeCodeCamp.org open source codebase and curriculum. Learn to code for free together with millions of people.
+vue,27673,142420,20526,git://github.com/vuejs/vue.git,🖖 Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web.
+bootstrap,143615,134283,65866,git://github.com/twbs/bootstrap.git,The most popular HTML, CSS, and JavaScript framework for developing responsive, mobile first projects on the web.
+react,143028,131744,24338,git://github.com/facebook/react.git,A declarative, efficient, and flexible JavaScript library for building user interfaces.
+javascript,2894,86577,16614,git://github.com/airbnb/javascript.git,JavaScript Style Guide
+d3,36059,85586,20948,git://github.com/d3/d3.git,Bring data to life with SVG, Canvas and HTML. :bar_chart::chart_with_upwards_trend::tada:
+react-native,363636,78522,17554,git://github.com/facebook/react-native.git,A framework for building native apps with React.
+create-react-app,10126,69041,15731,git://github.com/facebook/create-react-app.git,Set up a modern web app by running one command.
+node,474869,62388,14107,git://github.com/nodejs/node.git,Node.js JavaScript runtime :sparkles::turtle::rocket::sparkles:
+axios,2938,61321,4973,git://github.com/axios/axios.git,Promise based HTTP client for the browser and node.js
+Font-Awesome,87706,60175,10170,git://github.com/FortAwesome/Font-Awesome.git,The iconic SVG, font, and CSS toolkit
+angular.js,100204,59573,28875,git://github.com/angular/angular.js.git,AngularJS - HTML enhanced for web apps!
+three.js,725140,52670,19849,git://github.com/mrdoob/three.js.git,JavaScript 3D library.
+jquery,29656,51822,18251,git://github.com/jquery/jquery.git,jQuery JavaScript Library
+puppeteer,5459,50823,4668,git://github.com/GoogleChrome/puppeteer.git,Headless Chrome Node API
+javascript-algorithms,2546,50183,7348,git://github.com/trekhleb/javascript-algorithms.git,📝 Algorithms and data structures implemented in JavaScript with explanations and links to further readings
+webpack,23017,49649,6250,git://github.com/webpack/webpack.git,A bundler for javascript and friends. Packs many modules into a few bundled assets. Code Splitting allows for loading parts of the application on demand. Through "loaders", modules can be CommonJs, AMD, ES6 modules, CSS, Images, JSON, Coffeescript, LESS, ... and your custom stuff.
+redux,8241,49335,12722,git://github.com/reduxjs/redux.git,Predictable state container for JavaScript apps
+atom,312985,49142,12023,git://github.com/atom/atom.git,:atom: The hackable text editor
+material-ui,76604,48316,10854,git://github.com/mui-org/material-ui.git,React components for faster and easier web development. Build your own design system, or start with Material Design.
+reveal.js,9379,47059,13652,git://github.com/hakimel/reveal.js.git,The HTML Presentation Framework
+socket.io,12259,46763,8538,git://github.com/socketio/socket.io.git,Realtime application framework (Node.JS server)
+30-seconds-of-code,19044,46304,5231,git://github.com/30-seconds/30-seconds-of-code.git,A curated collection of useful JavaScript snippets that you can understand in 30 seconds or less.
+Semantic-UI,111123,45816,4833,git://github.com/Semantic-Org/Semantic-UI.git,Semantic is a UI component framework based around useful principles from natural language.
+express,8848,44446,7460,git://github.com/expressjs/express.git,Fast, unopinionated, minimalist web framework for node.
+Chart.js,14485,44126,9688,git://github.com/chartjs/Chart.js.git,Simple HTML5 Charts using the <canvas> tag
+html5-boilerplate,13940,43000,10235,git://github.com/h5bp/html5-boilerplate.git,A professional front-end template for building fast, robust, and adaptable web apps or sites.
+moment,17858,41616,6254,git://github.com/moment/moment.git,Parse, validate, manipulate, and display dates in javascript.
+resume.github.com,411,41176,1092,git://github.com/resume/resume.github.com.git,Resumes generated using the GitHub informations
+meteor,76657,41148,5032,git://github.com/meteor/meteor.git,Meteor, the JavaScript App Platform
