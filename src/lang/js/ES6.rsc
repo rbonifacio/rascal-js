@@ -319,8 +319,8 @@ syntax ArrowFunctionBody = Expression | FunctionBody ;
 syntax Arguments = "(" [\n]* ArgumentList? [\n]* ")" ; 
 
 syntax ArgumentList = Expression 
-                    | Expression "," [\n]? ArgumentList!last 
-                    | last: Expression "," [\n]? LastArgument
+                    | Expression "," [\n]* ArgumentList!last 
+                    | last: Expression "," [\n]* LastArgument
                     | LastArgument
                     ;
 
