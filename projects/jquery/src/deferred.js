@@ -68,7 +68,7 @@ jQuery.extend( {
 					deferred.done( arguments ).fail( arguments );
 					return this;
 				},
-				catch: function( fn ) {
+				katch: function( fn ) {
 					return promise.then( null, fn );
 				},
 
@@ -133,12 +133,7 @@ jQuery.extend( {
 									// https://promisesaplus.com/#point-54
 									// https://promisesaplus.com/#point-75
 									// Retrieve `then` only once
-									then = returned &&
-
-										// Support: Promises/A+ section 2.3.4
-										// https://promisesaplus.com/#point-64
-										// Only check objects and functions for thenability
-										( typeof returned === "object" ||
+									then = returned && 										( typeof returned === "object" ||
 											typeof returned === "function" ) &&
 										returned.then;
 

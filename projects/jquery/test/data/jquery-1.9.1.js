@@ -2196,8 +2196,7 @@ jQuery.fn.extend( {
 				elem = this[ i ];
 				cur = elem.nodeType === 1 && ( elem.className ?
 					( " " + elem.className + " " ).replace( rclass, " " ) :
-					" "
-				);
+					" " );
 
 				if ( cur ) {
 					j = 0;
@@ -2235,8 +2234,7 @@ jQuery.fn.extend( {
 				// This expression is here for better compressibility (see addClass)
 				cur = elem.nodeType === 1 && ( elem.className ?
 					( " " + elem.className + " " ).replace( rclass, " " ) :
-					""
-				);
+					"" );
 
 				if ( cur ) {
 					j = 0;
@@ -4275,8 +4273,6 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// buggy browsers will return fewer than the correct 2
 			doc.getElementsByName( expando ).length === 2 +
-
-			// buggy browsers will return more than the correct 0
 			doc.getElementsByName( expando + 0 ).length;
 		support.getIdNotName = !doc.getElementById( expando );
 
@@ -4467,11 +4463,9 @@ setDocument = Sizzle.setDocument = function( node ) {
 		function( a, b ) {
 			var adown = a.nodeType === 9 ? a.documentElement : a,
 				bup = b && b.parentNode;
-			return a === bup || !!( bup && bup.nodeType === 1 && (
-				adown.contains ?
+			return a === bup || !!( bup && bup.nodeType === 1 && (adown.contains ?
 					adown.contains( bup ) :
-					a.compareDocumentPosition && a.compareDocumentPosition( bup ) & 16
-			) );
+					a.compareDocumentPosition && a.compareDocumentPosition( bup ) & 16) );
 		} :
 		function( a, b ) {
 			if ( b ) {
@@ -5111,7 +5105,8 @@ Expr = Sizzle.selectors = {
 						elemLang = elemLang.toLowerCase();
 						return elemLang === lang || elemLang.indexOf( lang + "-" ) === 0;
 					}
-				} while ( ( elem = elem.parentNode ) && elem.nodeType === 1 );
+				}
+				 while ( ( elem = elem.parentNode ) && elem.nodeType === 1 );
 				return false;
 			};
 		} ),
@@ -5538,8 +5533,7 @@ function matcherFromTokens( tokens ) {
 			return indexOf.call( checkContext, elem ) > -1;
 		}, implicitRelative, true ),
 		matchers = [ function( elem, context, xml ) {
-			return ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
-				( checkContext = context ).nodeType ?
+			return ( !leadingRelative && ( xml || context !== outermostContext ) ) || (( checkContext = context ).nodeType ?
 					matchContext( elem, context, xml ) :
 					matchAnyContext( elem, context, xml ) );
 		} ];
@@ -5873,8 +5867,7 @@ jQuery.fn.extend( {
 	},
 
 	is: function( selector ) {
-		return !!selector && (
-			typeof selector === "string" ?
+		return !!selector && (typeof selector === "string" ?
 
 				// If this is a positional/relative selector, check membership in the returned set
 				// so $("p:first").is("p:last") won't return true for a doc with two "p".
@@ -5950,7 +5943,8 @@ jQuery.fn.andSelf = jQuery.fn.addBack;
 function sibling( cur, dir ) {
 	do {
 		cur = cur[ dir ];
-	} while ( cur && cur.nodeType !== 1 );
+	} 
+	while ( cur && cur.nodeType !== 1 );
 
 	return cur;
 }
@@ -7408,15 +7402,13 @@ function getWidthOrHeight( elem, name, extra ) {
 	}
 
 	// use the active box-sizing model to add/subtract irrelevant styles
-	return ( val +
-		augmentWidthOrHeight(
+	return ( val + augmentWidthOrHeight(
 			elem,
 			name,
 			extra || ( isBorderBox ? "border" : "content" ),
 			valueIsBorderBox,
 			styles
-		)
-	) + "px";
+		) ) + "px";
 }
 
 // Try to determine the default display value of an element
@@ -7433,8 +7425,7 @@ function css_defaultDisplay( nodeName ) {
 			// Use the already-created iframe if possible
 			iframe = ( iframe ||
 				jQuery( "<iframe frameborder='0' width='0' height='0'/>" )
-				.css( "cssText", "display:block !important" )
-			).appendTo( doc.documentElement );
+				.css( "cssText", "display:block !important" )).appendTo( doc.documentElement );
 
 			// Always write a new HTML skeleton so Webkit and Firefox don't choke on reuse
 			doc = ( iframe[ 0 ].contentWindow || iframe[ 0 ].contentDocument ).document;
@@ -8215,8 +8206,7 @@ jQuery.extend( {
 			s.crossDomain = !!( parts &&
 				( parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
 					( parts[ 3 ] || ( parts[ 1 ] === "http:" ? 80 : 443 ) ) !=
-						( ajaxLocParts[ 3 ] || ( ajaxLocParts[ 1 ] === "http:" ? 80 : 443 ) ) )
-			);
+						( ajaxLocParts[ 3 ] || ( ajaxLocParts[ 1 ] === "http:" ? 80 : 443 ) ) ));
 		}
 
 		// Convert data if not already a string
@@ -8745,8 +8735,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	var callbackName, overwritten, responseContainer,
 		jsonProp = s.jsonp !== false && ( rjsonp.test( s.url ) ?
 			"url" :
-			typeof s.data === "string" && !( s.contentType || "" ).indexOf( "application/x-www-form-urlencoded" ) && rjsonp.test( s.data ) && "data"
-		);
+			typeof s.data === "string" && !( s.contentType || "" ).indexOf( "application/x-www-form-urlencoded" ) && rjsonp.test( s.data ) && "data");
 
 	// Handle iff the expected data type is "jsonp" or we have a parameter to set
 	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
@@ -9071,7 +9060,8 @@ var fxNow, timerId,
 
 					// Update scale, tolerating zero or NaN from tween.cur()
 					// And breaking the loop if scale is unchanged or perfect, or if we've just had enough
-					} while ( scale !== ( scale = tween.cur() / target ) && scale !== 1 && --maxIterations );
+					}
+					 while ( scale !== ( scale = tween.cur() / target ) && scale !== 1 && --maxIterations );
 				}
 
 				tween.unit = unit;

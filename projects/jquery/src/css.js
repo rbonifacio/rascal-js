@@ -175,8 +175,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 			// Provide the current computed size to request scroll gutter calculation (gh-3589)
 			val
-		)
-	) + "px";
+		)) + "px";
 }
 
 jQuery.extend( {
@@ -322,15 +321,7 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 
 				// Certain elements can have dimension info if we invisibly show them
 				// but it must have a current display style that would benefit
-				return rdisplayswap.test( jQuery.css( elem, "display" ) ) &&
-
-					// Support: Safari <=8 - 12+, Chrome <=73+
-					// Table columns in WebKit/Blink have non-zero offsetWidth & zero
-					// getBoundingClientRect().width unless display is changed.
-					// Support: IE <=11+
-					// Running getBoundingClientRect on a disconnected node
-					// in IE throws an error.
-					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
+				return rdisplayswap.test( jQuery.css( elem, "display" ) ) && 					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
 						swap( elem, cssShow, function() {
 							return getWidthOrHeight( elem, dimension, extra );
 						} ) :

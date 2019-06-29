@@ -81,47 +81,47 @@ QUnit.assert.selectInFixture = function( message, selector, expectedIds ) {
 };
 
 this.createDashboardXML = function() {
-	var string = "<?xml version='1.0' encoding='UTF-8'?> \
-	<dashboard> \
-		<locations class='foo'> \
-			<location for='bar' checked='different'> \
-				<infowindowtab normal='ab' mixedCase='yes'> \
-					<tab title='Location'><![CDATA[blabla]]></tab> \
-					<tab title='Users'><![CDATA[blublu]]></tab> \
-				</infowindowtab> \
-			</location> \
-		</locations> \
-	</dashboard>";
+	// var string = "<?xml version='1.0' encoding='UTF-8'?> \
+	// <dashboard> \
+	// 	<locations class='foo'> \
+	// 		<location for='bar' checked='different'> \
+	// 			<infowindowtab normal='ab' mixedCase='yes'> \
+	// 				<tab title='Location'><![CDATA[blabla]]></tab> \
+	// 				<tab title='Users'><![CDATA[blublu]]></tab> \
+	// 			</infowindowtab> \
+	// 		</location> \
+	// 	</locations> \
+	// </dashboard>";
 
 	return jQuery.parseXML( string );
 };
 
 this.createWithFriesXML = function() {
-	var string = "<?xml version='1.0' encoding='UTF-8'?> \
-	<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' \
-		xmlns:xsd='http://www.w3.org/2001/XMLSchema' \
-		xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> \
-		<soap:Body> \
-			<jsconf xmlns='http://www.example.com/ns1'> \
-				<response xmlns:ab='http://www.example.com/ns2'> \
-					<meta> \
-						<component id='seite1' class='component'> \
-							<properties xmlns:cd='http://www.example.com/ns3'> \
-								<property name='prop1'> \
-									<thing /> \
-									<value>1</value> \
-								</property> \
-								<property name='prop2'> \
-									<thing att='something' /> \
-								</property> \
-								<foo_bar>foo</foo_bar> \
-							</properties> \
-						</component> \
-					</meta> \
-				</response> \
-			</jsconf> \
-		</soap:Body> \
-	</soap:Envelope>";
+	// var string = "<?xml version='1.0' encoding='UTF-8'?> \
+	// <soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' \
+	// 	xmlns:xsd='http://www.w3.org/2001/XMLSchema' \
+	// 	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> \
+	// 	<soap:Body> \
+	// 		<jsconf xmlns='http://www.example.com/ns1'> \
+	// 			<response xmlns:ab='http://www.example.com/ns2'> \
+	// 				<meta> \
+	// 					<component id='seite1' class='component'> \
+	// 						<properties xmlns:cd='http://www.example.com/ns3'> \
+	// 							<property name='prop1'> \
+	// 								<thing /> \
+	// 								<value>1</value> \
+	// 							</property> \
+	// 							<property name='prop2'> \
+	// 								<thing att='something' /> \
+	// 							</property> \
+	// 							<foo_bar>foo</foo_bar> \
+	// 						</properties> \
+	// 					</component> \
+	// 				</meta> \
+	// 			</response> \
+	// 		</jsconf> \
+	// 	</soap:Body> \
+	// </soap:Envelope>";
 
 	return jQuery.parseXML( string );
 };

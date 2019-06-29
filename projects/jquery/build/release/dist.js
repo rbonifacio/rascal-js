@@ -103,7 +103,7 @@ module.exports = function( Release, files, complete ) {
 		// Write generated bower file
 		fs.writeFileSync( Release.dir.dist + "/bower.json", generateBower() );
 
-		fs.writeFileSync( Release.dir.dist + "/README.md", editReadme( readme ) );
+		fs.writeFileSync(Release.dir.dist + "/README.md", editReadme(readme));
 
 		console.log( "Files ready to add." );
 		console.log( "Edit the dist README.md to include the latest blog post link." );

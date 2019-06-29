@@ -398,10 +398,7 @@
   		},
 
   		"regexp": function regexp(a, b) {
-  			return a.source === b.source &&
-
-  			// Include flags in the comparison
-  			getRegExpFlags(a) === getRegExpFlags(b);
+  			return a.source === b.source && getRegExpFlags(a) === getRegExpFlags(b);
   		},
 
   		// abort (identical references / instance methods were skipped earlier)
@@ -743,14 +740,7 @@
   	}
 
   	function isArray(obj) {
-  		return (
-
-  			//Native Arrays
-  			toString.call(obj) === "[object Array]" ||
-
-  			// NodeList objects
-  			typeof obj.length === "number" && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined)
-  		);
+  		return (toString.call(obj) === "[object Array]" || typeof obj.length === "number" && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined));
   	}
 
   	var reName = /^function (\w+)/,

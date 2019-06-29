@@ -42,8 +42,7 @@ module.exports = function( grunt ) {
 			},
 			nodeSmokeTests: {
 				files: {
-					"test/data/core/jquery-iterability-transpiled.js":
-						"test/data/core/jquery-iterability-transpiled-es6.js"
+					"test/data/core/jquery-iterability-transpiled.js": "test/data/core/jquery-iterability-transpiled-es6.js"
 				}
 			}
 		},
@@ -272,14 +271,12 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					"dist/<%= grunt.option('filename').replace('.js', '.min.js') %>":
-						"dist/<%= grunt.option('filename') %>"
+					"dist/<%= grunt.option('filename').replace('.js', '.min.js') %>": "dist/<%= grunt.option('filename') %>"
 				},
 				options: {
 					preserveComments: false,
 					sourceMap: true,
-					sourceMapName:
-						"dist/<%= grunt.option('filename').replace('.js', '.min.map') %>",
+					sourceMapName: "dist/<%= grunt.option('filename').replace('.js', '.min.map') %>",
 					report: "min",
 					output: {
 						"ascii_only": true

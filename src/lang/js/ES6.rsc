@@ -293,8 +293,8 @@ syntax Expression = "this"
 				  > right binAnd: Expression lhs "&" !>> [&=] [\n]? Expression rhs
   				  > right binXor: Expression lhs "^" !>> [=] [\n]? Expression rhs
   				  > right binOr: Expression lhs "|" !>> [|=] [\n]? Expression rhs
-  				  > left and: Expression lhs "&&" [\n]? Expression rhs
-  				  > left or: Expression lhs "||" [\n]? Expression rhs
+  				  > left and: Expression lhs "&&" [\n]* Expression rhs
+  				  > left or: Expression lhs "||" [\n]* Expression rhs
   			      > Expression!cond cond [\n]* "?" [\n]* Expression!cond then [\n]* ":" [\n]* Expression elseExp 
    			      > right ( assign: Expression lhs "=" !>> ("\>" | "=" | "==") [\n]? Expression rhs
 				          | assignMul: Expression lhs "*=" [\n]? Expression rhs
