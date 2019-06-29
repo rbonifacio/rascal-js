@@ -96,7 +96,7 @@ syntax Statement
   
   ;
 
-syntax Block = "{" Statement+ "}" ;
+syntax Block = "{" Statement* "}" ;
 syntax BlockWithEOS = "{" Statement+ "}" EOS;
  
 
@@ -116,8 +116,8 @@ syntax IfStatement = "if" "(" [\n]* Expression [\n]* ")" [\n]* Statement!empty (
 syntax IterationStatement = "do" [\n]* Statement!empty "while" "(" Expression ")" EOS
                           | "while" "(" Expression ")" [\n]* Statement!empty     
                           | "for" "(" Expression? ";" Expression? ";" Expression? ")" [\n]* Statement!empty
-                          | "for" "(" VarModifier {VarDec ","}+ ";" Expression? ";" Expression? ")" [\n]* Statement!empty
-                          | "for" "(" VarModifier VarDec ("in" | "of") Expression  ")" [\n]*Statement!empty
+                          | "for" "(" VarModifier? {VarDec ","}+ ";" Expression? ";" Expression? ")" [\n]* Statement!empty
+                          | "for" "(" VarModifier? VarDec ("in" | "of") Expression  ")" [\n]*Statement!empty
                           ; 
 
 syntax ContinueStatement = "continue" !>> [\n\r] Id EOS
@@ -144,7 +144,7 @@ syntax CaseClause = "case" Expression ":" Statement*
                   
 syntax ThrowStatement = "throw" !>> [\n\r] Expression EOS ; 
 
-syntax TryStatement = "try" Block CatchClause FinallyClause?
+syntax TryStatement = "try" Block [\n]? CatchClause FinallyClause?
                     | "try" Block FinallyClause? 
                     ;
                     
@@ -199,7 +199,7 @@ syntax IdName = Reserved
 			  ; 					
 											
                               
-syntax VarDec = [\n]? (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]* Expression)?;
+syntax VarDec = [\n]* (Id | ArrayLiteral | ObjectLiteral)  ("=" [\n]* Expression)?;
 
 /*
  * Array Literal 
