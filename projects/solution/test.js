@@ -6,5 +6,5 @@
 //true ? true : true ? true : false;
   
 
-caio = (2,3)
-console.log( (caio,3 ))
+// caio = (2,3)
+// console.log( (caio,3 ))

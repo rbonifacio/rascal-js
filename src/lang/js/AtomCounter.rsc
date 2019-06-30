@@ -5,6 +5,21 @@ import ParseTree;
 import String;
 import IO;
 
+
+int countAutomaticSemiColon(start[CompilationUnit] unit){
+	int total = 0;
+	unit = top-down visit(unit){
+		case (ReturnAtom) `<ReturnAtom ra>` : {
+			
+			println(ra);
+			
+		}
+	
+	};
+	return total;
+
+}
+
 int countTernaryOperator(start[CompilationUnit] unit){
 	int total = 0;
 	unit = top-down visit(unit){
@@ -24,13 +39,13 @@ int countCommaOperator(start[CompilationUnit] unit){
 		case (Expression) `<Expression exp> = ( <ExpressionSequence seq> )` : {
 			if(contains(unparse(seq),",")){
 				total = total + 1;
-				println(unparse(exp) + "= (" + unparse(seq) + ")" );
+				
 			}
 		}
 		case (ReturnStatement) `return (  <ExpressionSequence seq> ) <EOS eos>` : {
 			if(contains(unparse(seq),",")){
 				total = total + 1;
-				println("return (" + unparse(seq) + ")" );
+				
 			}
 		}
 		
@@ -74,7 +89,8 @@ void countAtoms(bool verbose, loc baseDir) {
   int postIncrementCount = 0;
   int preIncrementCount = 0;
   int ternaryCount = 0;  
-  int commaCount = 0;  
+  int commaCount = 0; 
+  int autoSemiCount = 0;  
   for(loc s <- entries) {
 	try {
 		
@@ -83,9 +99,10 @@ void countAtoms(bool verbose, loc baseDir) {
     	
   		//postIncrementCount+= countPostIncrement(unit);
   		//preIncrementCount+= countPreIncrement(unit);
-  		commaCount+= countCommaOperator(unit);
+  		//commaCount+= countCommaOperator(unit);
+  		//autoSemiCount+= countAutomaticSemiColon(unit);
   		
-		//print("Count in " + s.path); println(countTernaryOperator(unit));
+		print("BUG " + s.path); println(countAutomaticSemiColon(unit));
 		//ternaryCount+= countTernaryOperator(unit);
 
         
@@ -102,6 +119,7 @@ void countAtoms(bool verbose, loc baseDir) {
   print("Post Increment Count: "); println(postIncrementCount);
   print("Ternary Operator Count: "); println(ternaryCount);
   print("Comma Operator Count: "); println(commaCount);
+  print("Semi Colon Count: "); println(autoSemiCount);
 }
 
 

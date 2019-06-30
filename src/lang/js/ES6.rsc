@@ -129,7 +129,10 @@ syntax BreakStatement = "break" !>> [\n\r] Id EOS
                       ;     
                                             
 syntax ReturnStatement = "return" !>> [\n\r] Expression EOS 
+                       > ReturnAtom
                        | "return" EOS ; 
+                       
+syntax ReturnAtom = "return" [\n] >> Expression;                    
                        
 syntax WithStatement = "with" "(" Expression ")" Statement ;   
 
@@ -312,6 +315,7 @@ syntax Expression = "this"
 syntax NewLines = [\n]*;  
   
 syntax ExpressionSequence =  { Expression "," }+; 
+
 
 syntax ArrowParameters = Id | FormalArgs ; 
 
