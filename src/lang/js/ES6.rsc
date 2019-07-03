@@ -107,7 +107,7 @@ syntax EmptyStatement = ";" | [\n] ;
 syntax ExpressionStatement = expe: Expression!function  EOS;
 
 
-syntax IfStatement = "if" "(" [\n]* Expression [\n]* ")" [\n]* Statement!empty ("else" [\n]* Statement!empty)?;
+syntax IfStatement = "if" "(" NewLines Expression NewLines ")" NewLines Statement!empty ("else" [\n]* Statement!empty)?;
 
 
 

@@ -8,3 +8,9 @@
 
 // caio = (2,3)
 // console.log( (caio,3 ))
+
+return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
